@@ -1,0 +1,30 @@
+---
+title: "Exploration_gapminder"
+author: "Jason Sun"
+email: "sunb@ece.ubc.ca"
+date: "`r format(Sys.Date())`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Intro
+
+This is an intro document for introducing the exploration of gapminder dataset, which is a very famous dataset in R package and data science. 
+I will use some basic R commands to show you the overview of gapminder dataset and I found that the R commands are very much like the pandas dataframe in Python :)
+
+## Overview
+
+Gapminder is a dataset like this, we first need to install the dataset using library(gapminder)
+
+All right, after that the gapminder dataset is already loaded into RAM and now we can take a look at the general structure of it. We can use head(gapminder), which will show the first several lines of gapminder dataset.
+
+```{r pressure, echo=FALSE}
+library(gapminder)
+head(gapminder)
+```
+
+
+
