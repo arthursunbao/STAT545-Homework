@@ -11,4 +11,8 @@ I am looking forward to learning more new things and do more work in data scienc
 
 My github account is at here: <https://github.com/arthursunbao>.
 
+### I love UBC
+
+What a beautiful scenary of UBC !
+
 ![alt text](https://www.ubc.ca/_assets/img/martha-piper-plaza-1920x700.jpg "A nice picture of UBC")
