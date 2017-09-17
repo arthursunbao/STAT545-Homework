@@ -1,5 +1,5 @@
 ---
-title: "Exploration_gapminder"
+title: "A brief introduction into Gapminder Dataset"
 author: "Jason Sun"
 email: "sunb@ece.ubc.ca"
 date: "`r format(Sys.Date())`"
@@ -19,12 +19,40 @@ I will use some basic R commands to show you the overview of gapminder dataset a
 
 Gapminder is a dataset like this, we first need to install the dataset using library(gapminder)
 
+### Brief View
+
 All right, after that the gapminder dataset is already loaded into RAM and now we can take a look at the general structure of it. We can use head(gapminder), which will show the first several lines of gapminder dataset.
 
 ```{r pressure, echo=FALSE}
 library(gapminder)
 head(gapminder)
 ```
+
+### Full View
+After that, if we want to see all the detail data of gapminder, then we can directly type into gapminder and it will show all the data afterwards. We will skip that part as the data will overwhelm the whole screen :)
+
+### What is inside the datset ? 
+
+#### Attributes and Rows
+
+Let's check out how many rows and columns of attributes do we have in total:
+
+We can use dim(gapminder) to get the dimension of the dataset:
+
+```{r, echo=FALSE}
+dim(gapminder)
+```
+
+It is quite clear that the dataset contains 6 attributes: country, continent, year, lifeExp, pop, gdpPercap and we have 1704 rows in total.
+
+All right. That is all for the entry intro to the dataset. Next time we will dig a little deeper into finding out the statistical facts of the dataset using some common R commands. 
+
+
+
+
+
+
+
 
 
 
