@@ -21,8 +21,11 @@ Here is a list of to-do list I want to achieve in the course in the future.
 
 ### How do I edit the README.MD?
 Actually I edited the README.MD from Mac Terminal by Vim, RStudio and Github Web by all means as I want to practise to see the difference between them. 
+
 Of course it is easier to do within Vim as I have been using Vim for quite some time :)
+
 Furthermore, I do all the git operations for git add, git commit, git push orign master from terminal as I have been using Git for quite some time....
+
 I think it is very interesting and worthwhile to use Git to do iterative development for R document like other software development methodologies. 
 
 ### I love UBC
