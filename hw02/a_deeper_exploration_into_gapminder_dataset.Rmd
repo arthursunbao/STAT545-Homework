@@ -1,0 +1,162 @@
+---
+title: "A deeper exploration into Gapminder Dataset"
+author: "Jason Sun"
+email: "sunb@ece.ubc.ca"
+date: "`r format(Sys.Date())`"
+output: github_document
+---
+
+
+
+## Intro
+
+Last time during homework 01, I have showed you the most fundmental aspects of gapminder, which is a very basic dataset for entry level people to better explore R. We see the general form of it, which is a two-dimensional table with 6 attributes and 1704 lines of data. Today, we will dig a little deeper as we are becoming more and more professional in R :)
+
+This page will be divided into the following aspects:
+- Overall Property of the Dataset
+- Variable Property Exploration
+- Data Visualization using ggplot2
+- Data Filtering with limited conditions to get desired information
+- Personal Thought about this work
+
+## Overall Property of Gapminder
+We need to load the Gapminder first
+
+```{r}
+library(gapminder)
+library(tidyverse)
+library(ggplot2)
+```
+
+So the first question we are going to answer is what is Gapminder? Is it a data.frame, a matrix, a vector, a list?
+Well, we can check it by using typeof() function in R. Let's try it out!
+
+```{r}
+typeof(gapminder)
+```
+
+Wow, it seems it is a list data type.
+Then what is its class? 
+```{r}
+class(gapminder)
+```
+Hmm, it is a Dataframe.
+
+So next, How many variables/columns do we have? We can use ncol in R
+```{r}
+ncol(gapminder)
+```
+
+Then how many rows/observations do we have? We can use nrow in R
+```{r}
+nrow(gapminder)
+```
+
+So next I will show you some different tricks about how to find out the extent and size of the dataset
+
+To find the length of the dataset
+```{r}
+length(gapminder)
+```
+
+To give a dimension of the dataset
+```{r}
+dim(gapminder)
+```
+
+To give the names of all the columns
+```{r}
+names(gapminder)
+```
+
+Let's have a final statistical overview of the dataset
+```{r}
+summary(gapminder)
+```
+
+Now let's find out the data type of each variable in the dataset
+```{r}
+typeof(gapminder$country)
+typeof(gapminder$continent)
+typeof(gapminder$year)
+typeof(gapminder$lifeExp)
+typeof(gapminder$pop)
+typeof(gapminder$gdpPercap)
+```
+
+Next we will explore one categorical variable and one quantative variable.
+The categorical data we pick up will be the year variable
+Let's get a summary of year first:
+```{r}
+summary(gapminder$year)
+table(gapminder$year)
+```
+So it is quite clear that the year ranges from 1952 to 2007 and median value is 1980 and mean value is also 1980
+
+Let's also take a look at the quantative variable lifeExp
+```{r}
+summary(gapminder$lifeExp)
+hist(gapminder$lifeExp)
+```
+From the histgram we can see that the 70~75 takes up most of the life expectency and max lifeExp is 82.6 and Min is 23.6 where median is 60.71.
+
+## Plot Exploration with ggplot2 for Gapminder 
+Let's try to see the scatterplot for the relationship between lifeExp and gdpPercap
+```{r}
+ggplot(gapminder, aes(x = gdpPercap, y = lifeExp)) + geom_point()
+```
+
+Let's try to find out the log10(gdpPerCap) towards lifeExp
+```{r}
+ggplot(gapminder, aes(x = log10(gdpPercap), y = lifeExp)) + geom_point()
+```
+
+Let's try to plot a quantative variable lifeExp and make a histogram of it
+```{r}
+hist(gapminder$lifeExp)
+```
+
+Now Let's try something interesting. How about we draw a plot by year with different countries and their respective lifeExp? Would that be difficult? 
+```{r}
+jCountries <- c("Canada", "Rwanda", "Cambodia", "Mexico")
+ggplot(subset(gapminder, country %in% jCountries), aes(x = year, y = lifeExp, color = country)) + geom_line() + geom_point()
+```
+
+## Filtering and Selecting
+Sometimes we don't need to use all the data provided. So we will need to filter and select the data that we want. R has provided us with some really useful functions that can easily help to do the filtering. Let's take some real examples.
+For example, if we want to plot a lifeExp graph with ony country of Canada in ggplot2, how could we do that? We can add a parameter called filter in ggplot to assgin the country to Canada then that's it!
+```{r}
+suppressPackageStartupMessages(library(dplyr))
+ggplot(gapminder %>% filter(country == "Canada"), aes(x = year, y = lifeExp)) + geom_line() + geom_point()
+```
+
+Cool! So how about using the filter() and select() together to plot the lifeExp by year for Rwanda? Let's try this:
+```{r}
+filter(gapminder, country == c("Rwanda")) %>%select(year, lifeExp) %>%ggplot(aes(x=year, y=lifeExp))+ geom_line() + geom_point()
+```
+
+Wops, there seems to be a drastic drop in 1991 where the lifeExp is below 25, which I think may be a mistake I guess..
+
+## Some thoughts
+Homework2 is a little harder than homework1 with more things to consider and requires you more proficient in R for data types, plots, common operations, etc. Afterall, it is not so difficult as thought and we can make things better in the next homework assignment.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
