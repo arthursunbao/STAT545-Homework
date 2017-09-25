@@ -6,7 +6,7 @@ Hi Everyone!
 
 This is the folder for STAT545 Homework2: A deeper exploration into Gapminder Dataset and you will find more in-depth information regarding the dataset with the help of R.
 
-Here is the **direct link to the exploration page**: <https://www.linkedin.com/in/jasonsunb/>
+Here is the **direct link to the exploration page**: <https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/hw02/a_deeper_exploration_into_gapminder_dataset.md>
 
 Basically we will introduce the dataset according to these following fields: 
 
