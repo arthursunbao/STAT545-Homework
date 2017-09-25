@@ -12,6 +12,10 @@ My Linkedin account is at here: <https://www.linkedin.com/in/jasonsunb/>.
 
 My previous experience lays mainly in **software engineering with development experience in Java and C++**. I am very interested in data science as I am fully convenienced that the world are changing into a world of data and that is the reason why I take the course
 
+### Homework Link
+My first Homework is at here: <https://github.com/arthursunbao>
+My Second Homework is at here: <https://github.com/arthursunbao>
+
 ### Current Course Plan
 Here is a list of to-do list I want to achieve in the course in the future.
 - Learn the basic usage of R
