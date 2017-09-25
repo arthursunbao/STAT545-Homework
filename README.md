@@ -8,6 +8,7 @@ I am never used R before and I am quite interested in the amazing functionality 
 I am looking forward to learning more new things and do more work in data science !
 
 My Github account is at here: <https://github.com/arthursunbao>.
+
 My Linkedin account is at here: <https://www.linkedin.com/in/jasonsunb/>.
 
 My previous experience lays mainly in **software engineering with development experience in Java and C++**. I am very interested in data science as I am fully convenienced that the world are changing into a world of data and that is the reason why I take the course
@@ -33,7 +34,7 @@ Furthermore, I do all the git operations for git add, git commit, git push orign
 I think it is very interesting and worthwhile to use Git to do iterative development for R document like other software development methodologies. 
 
 ### Gapminder Dataset Exploration
-![alt text](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/Exploration_gapminder.md "A brief introduction into Gapminder Dataset")
+![Link to Exploration into Gapminder Dataset :)](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/Exploration_gapminder.md "A brief introduction into Gapminder Dataset")
 
 ### I love UBC
 What a beautiful scenary of UBC !
