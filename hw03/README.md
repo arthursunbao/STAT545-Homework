@@ -7,7 +7,7 @@ Hi Everyone!
 This is the folder for STAT545 Homework3: Use dplyr and ggplot2 to manipulate and explore gapminder dataset
 
 
-![Direct Link to the File](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/Exploration_gapminder.md "Direct Link to the File")
+![Direct Link to the File](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw03/a_deeper_exploration_into_gapminder_dataset.md "Direct Link to the File")
 
 Basically we will introduce the dataset according to these following fields: 
 
