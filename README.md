@@ -20,6 +20,8 @@ My previous experience lays mainly in **software engineering with development ex
 ![My Second Homework is at here: ](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/hw02/a_deeper_exploration_into_gapminder_dataset.md
 "Homework2")
 
+![My Third Homework is at here: ](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw03/a_deeper_exploration_into_gapminder_dataset.md
+"Homework3")
 
 ### Current Course Plan
 Here is a list of to-do list I want to achieve in the course in the future.
