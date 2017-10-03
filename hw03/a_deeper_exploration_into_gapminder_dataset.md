@@ -1,7 +1,7 @@
 Use dplyr and ggplot2 to manipulate and explore gapminder dataset
 ================
 Jason Sun
-2017-10-02
+2017-10-03
 
 Intro
 -----
@@ -190,6 +190,8 @@ ggplot(asialifeexp, aes(x=year, y = avg_life_exp)) + geom_bar(stat="identity",po
 
 ![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)
 
+America starts from about 44 to 66 overall.
+
 This is for Americas
 
 ``` r
@@ -198,6 +200,8 @@ ggplot(americalifeexp, aes(x=year, y = avg_life_exp)) + geom_bar(stat="identity"
 ```
 
 ![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-1.png)
+
+America starts from about 54 to 68 overall.
 
 This is for Africa
 
@@ -208,6 +212,8 @@ ggplot(africalifeexp, aes(x=year, y = avg_life_exp)) + geom_bar(stat="identity",
 
 ![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-1.png)
 
+Africa seems to be starting from 39 to 46.
+
 For Oceania
 
 ``` r
@@ -217,14 +223,18 @@ ggplot(oceanialifeexp, aes(x=year, y = avg_life_exp)) + geom_bar(stat="identity"
 
 ![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png)
 
+So it is quite clear that the life of Oceania increase from about 64 to 81. Wow so high!
+
 For Europe
 
 ``` r
 europelifeexp <- gapminder %>% select(continent, year, lifeExp) %>% filter(continent=="Europe") %>% group_by(year) %>% summarize(avg_life_exp = mean(lifeExp))
-ggplot(oceanialifeexp, aes(x=year, y = avg_life_exp)) + geom_bar(stat="identity",position="dodge",fill = "dark blue")+labs(x = "Year", y = "Life Exp", title = "Life Exp by Year for Europe") + theme(plot.title = element_text(hjust = 0.5))
+ggplot(europelifeexp, aes(x=year, y = avg_life_exp)) + geom_bar(stat="identity",position="dodge",fill = "dark blue")+labs(x = "Year", y = "Life Exp", title = "Life Exp by Year for Europe") + theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-1.png)
+
+So it is quite clear that the life of Europe increase from more than 60 to 78.
 
 ### Question 5: Find countries whose life expectancy is lower than the average of the world
 
@@ -240,17 +250,12 @@ avg_life
 Let's then calculate the average life expectancy of countries one by one whose is below the avg\_life calculated above
 
 ``` r
-gapminder%>%group_by(country, continent)%>%summarize(avg_life_exp = mean(lifeExp))%>%filter(avg_life_exp < avg_life)%>%arrange(continent)%>%group_by(continent)%>%summarize(n = n())
+below_life <- gapminder%>%group_by(country, continent)%>%summarize(avg_life_exp = mean(lifeExp))%>%filter(avg_life_exp < avg_life)%>%arrange(continent)%>%group_by(continent)%>%summarize(n = n())
+
+ggplot(below_life, aes(x=continent, y = n)) + geom_bar(stat="identity",position="dodge",fill = "dark blue")+labs(x = "Continent", y = "Life Exp", title = "Life Exp below average") + theme(plot.title = element_text(hjust = 0.5))+geom_text(aes(label=n), vjust=0)
 ```
 
-    ## # A tibble: 3 x 2
-    ##   continent     n
-    ##      <fctr> <int>
-    ## 1    Africa    49
-    ## 2  Americas     6
-    ## 3      Asia    15
-
-Wow, it seems that there are total of 70 countries who is under average life exp and Africa accounts for over 81.6% of the total.
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-1.png) Wow, it seems that there are total of 70 countries who is under average life exp and Africa accounts for over 81.6% of the total.
 
 ### Question 6: Find countries with interesting stories. Open-ended and, therefore, hard. Promising but unsuccessful attempts are encouraged. This will generate interesting questions to follow up on in class
 
