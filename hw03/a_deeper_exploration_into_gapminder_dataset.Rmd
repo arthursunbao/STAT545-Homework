@@ -181,6 +181,20 @@ ggplot(below_life, aes(x=continent, y = n)) + geom_bar(stat="identity",position=
 ```
 Wow, it seems that there are total of 70 countries who is under average life exp and Africa accounts for over 81.6% of the total.
 
+Then, if we want to find the year by year number of countries of a certain continents, we need to create a variable to store each continent whose age is below the average value
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+below_avg<-(gapminder %>% mutate(temp=NA) %>% mutate(temp = ifelse(lifeExp < avg_life, "1", temp)) %>% mutate(temp = as.numeric(temp)) %>% filter(!is.na(temp)))
+```
+
+Then we can combine by continent and yearly-frequency basis
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+result <- data.frame(table(below_avg$continent, below_avg$year))
+colnames(result)[colnames(result)=="Var2"] <- "Year"
+colnames(result)[colnames(result)=="Var1"] <- "Continent"
+
+result %>% arrange(result$Con, Year, Freq) %>% mutate(Year=as.numeric(as.character(Year))) %>% ggplot(aes(x=Year, y=Freq)) + geom_point(mapping= aes(colour= Continent), alpha=0.1, size=1) + geom_smooth(aes(colour= Continent)) + labs(x="Years", y="Countries")
+```
+
 ### Question 6: Find countries with interesting stories. Open-ended and, therefore, hard. Promising but unsuccessful attempts are encouraged. This will generate interesting questions to follow up on in class
 
 Let's see what countries do we have

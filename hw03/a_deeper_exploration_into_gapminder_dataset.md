@@ -354,6 +354,10 @@ ggplot(below_life, aes(x=continent, y = n)) + geom_bar(stat="identity",position=
 
 ![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-19-1.png) Wow, it seems that there are total of 70 countries who is under average life exp and Africa accounts for over 81.6% of the total.
 
+Then, if we want to find the year by year number of countries of a certain continents, we need to create a variable to store each continent whose age is below the average value
+
+Then we can combine by continent and yearly-frequency basis ![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-21-1.png)
+
 ### Question 6: Find countries with interesting stories. Open-ended and, therefore, hard. Promising but unsuccessful attempts are encouraged. This will generate interesting questions to follow up on in class
 
 Let's see what countries do we have
@@ -458,7 +462,7 @@ a<-gapminder%>%filter(country=="Kuwait")%>%select(year, gdpPercap, pop)
 ggplot(a, aes(x=year, y = gdpPercap, color=year)) + geom_line() + geom_point()
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-22-1.png) It is quite interesting that the GDP was quite high in 1950s but in drastically droped between 1970 to 1980 and then slowly recovered... Let's add the population into consideration to see whether it has anything to do with the drop.
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-24-1.png) It is quite interesting that the GDP was quite high in 1950s but in drastically droped between 1970 to 1980 and then slowly recovered... Let's add the population into consideration to see whether it has anything to do with the drop.
 
 We need to do the normalization first by using scale() becasue the popluation number is much larger than the GDP value.
 
@@ -466,7 +470,7 @@ We need to do the normalization first by using scale() becasue the popluation nu
 ggplot(a, aes(x=year)) + geom_point(aes(y=scale(gdpPercap)), ) + geom_line(aes(y=scale(gdpPercap),  color="red")) + geom_point(aes(y=scale(pop))) + geom_line(aes(y=scale(pop)), color = "blue") + labs(title="GDP Change with respective to time and population for Kuwait") + labs(caption="(based on normalized data)")
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-23-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-25-1.png)
 
 It is quite interesting that the GDP dropped drastically with the soaring growth of human population. Maybe becasue as we all know that during 1970 to 1990, Kuwait had war with Iraq and Iran, which crashed its economy. Maybe that is the reason. It is quite an interesting fact to find how fragile the GDP, or economy is of a country.
 
