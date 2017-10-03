@@ -14,8 +14,12 @@ My Linkedin account is at here: <https://www.linkedin.com/in/jasonsunb/>.
 My previous experience lays mainly in **software engineering with development experience in Java and C++**. I am very interested in data science as I am fully convenienced that the world are changing into a world of data and that is the reason why I take the course
 
 ### Homework Link
-My first Homework is at here: <https://github.com/arthursunbao>
-My Second Homework is at here: <https://github.com/arthursunbao>
+![My First Homework is at here: ](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/Exploration_gapminder.md
+"Homework1")
+
+![My Second Homework is at here: ](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/hw02/a_deeper_exploration_into_gapminder_dataset.md
+"Homework2")
+
 
 ### Current Course Plan
 Here is a list of to-do list I want to achieve in the course in the future.
