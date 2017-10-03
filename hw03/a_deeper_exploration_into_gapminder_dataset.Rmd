@@ -30,6 +30,9 @@ We need to load the Gapminder first
 library(gapminder)
 library(tidyverse)
 library(ggplot2)
+library(knitr)
+library(ggthemes)
+library(reshape)
 knitr::opts_chunk$set(fig.width=8, fig.height=5)
 ```
 
@@ -42,6 +45,8 @@ So we first groupby gapminder by continents
 Then we extract the max and min from column gdpPercap. Done
 ```{r}
 gdpper <- gapminder %>% group_by(continent) %>% summarize(maximum_gdpPercap=max(gdpPercap), minimum_gdpPercap=min(gdpPercap))
+kable(gdpper)
+
 ```
 We can use a histogram to draw the table to show the results of maximum GDP.
 ```{r}
@@ -57,48 +62,59 @@ ggplot(gdpper, aes(gdpper$continent, gdpper$minimum_gdpPercap, fill=gdpper$conti
 
 Hmm, It is quite clear that Africa indeed has the lowest GDP.
 
-BTW, so if we want the data of continents by year?
-```{r}
-gapminder %>% group_by(continent, year) %>% summarise_each(funs(min, max), gdpPercap)
-```
-
 ### Question2: Look at the spread of GDP per capita within the continents
 We also need to groupby the gapminder by continents and then create subview in (continent, gdpPercap), then filter by continents and then do respective summary()
 
+The spread of gdpPercap by for all country starting from the smallest gdpPercap to the largest. Because the country name is hard to display on the x-axis, then we will use index instead. It is quite clear for the trend.
+
 For Asia
 ```{r}
-asia<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Asia")%>%arrange(gdpPercap)
+summary(asia<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Asia")%>%arrange(gdpPercap))
 ggplot(asia, aes(x=row.names(asia), y = asia$gdpPercap, group=1)) + geom_bar(stat="identity",position="dodge", fill = "dark blue")+labs(x = "Index", y = "GDP PerCap", title = "GDP Trend Line of Asia")+scale_x_discrete(limits= row.names(asia))+ theme(plot.title = element_text(hjust = 0.5))
 ```
 
 For Europe
 ```{r}
-europe<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Europe")%>%arrange(gdpPercap)
+summary(europe<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Europe")%>%arrange(gdpPercap))
 ggplot(europe, aes(x=row.names(europe), y = europe$gdpPercap, group=1)) + geom_bar(stat="identity",position="dodge", fill = "dark blue")+labs(x = "Index", y = "GDP PerCap", title = "GDP Trend Line of Europe")+scale_x_discrete(limits= row.names(europe))+ theme(plot.title = element_text(hjust = 0.5))
 ```
 
 For Africa
 ```{r}
-africa<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Africa")%>%arrange(gdpPercap)
+summary(africa<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Africa")%>%arrange(gdpPercap))
 ggplot(africa, aes(x=row.names(africa), y = africa$gdpPercap, group=1)) + geom_bar(stat="identity",position="dodge", fill = "dark blue")+labs(x = "Index", y = "GDP PerCap", title = "GDP Trend Line of Africa")+scale_x_discrete(limits= row.names(africa))+ theme(plot.title = element_text(hjust = 0.5))
 ```
 
 For Americas
 ```{r}
-america<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Americas")%>%arrange(gdpPercap)
+summary(america<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Americas")%>%arrange(gdpPercap))
 ggplot(america, aes(x=row.names(america), y = america$gdpPercap, group=1)) + geom_bar(stat="identity",position="dodge", fill = "dark blue")+labs(x = "Index", y = "GDP PerCap", title = "GDP Trend Line of America")+scale_x_discrete(limits= row.names(america))+ theme(plot.title = element_text(hjust = 0.5))
 ```
 
 For Oceania
 ```{r}
-oceania<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Oceania")%>%arrange(gdpPercap)
+summary(oceania<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Oceania")%>%arrange(gdpPercap))
 ggplot(oceania, aes(x=row.names(oceania), y = oceania$gdpPercap, group=1)) + geom_bar(stat="identity",position="dodge", fill = "dark blue")+labs(x = "Index", y = "GDP PerCap", title = "GDP Trend Line of Oceania")+scale_x_discrete(limits= row.names(oceania))+ theme(plot.title = element_text(hjust = 0.5))
+```
+
+Then let's do an overview of the whoe five continents
+```{r}
+kable(gapminder %>% 
+group_by(continent) %>% 
+summarize(mean=mean(gdpPercap),min=min(gdpPercap), max=max(gdpPercap), std=sd(gdpPercap), q25=quantile(gdpPercap, probs=.25), q50=quantile(gdpPercap, probs=.5), q75=quantile(gdpPercap, probs=.75)))
+```
+
+Then let's try box plots to take a look by taking a log10 scale to solve unballance between different continents.
+```{r}
+ggplot(gapminder, aes(x=continent, y=gdpPercap)) +
+  geom_boxplot(outlier.colour = "blue", alpha=0.5, size=1, shape=1)  +
+  scale_y_log10()
 ```
 
 ### Question3: Compute a trimmed mean of life expectancy for different years.
 How to compute a trimmed mean of life expectancy for different years? Let's take the trim value = 0.1 for example
 ```{r}
-years <- gapminder %>% group_by(year) %>% select(year, lifeExp) %>% summarise_each(funs(mean(lifeExp, trim=0.1)), lifeExp)
+kable(years <- gapminder %>% group_by(year) %>% select(year, lifeExp) %>% summarise_each(funs(mean(lifeExp, trim=0.1)), lifeExp))
 ggplot(years, aes(x=year, y = lifeExp)) + geom_bar(stat="identity",position="dodge",fill = "Red")+labs(x = "Year", y = "Life Exp", title = "Life Exp by Year") + theme(plot.title = element_text(hjust = 0.5))
 ```
 
@@ -149,7 +165,8 @@ So it is quite clear that the life of Europe increase from more than 60 to 78.
 
 ### Question 5: Find countries whose life expectancy is lower than the average of the world
 
-First we need to compute the average life expectancy of the world for all the years together.
+First we need to compute the average life expectancy of the world for all the years together, which I want to take it in an easy way, just use the mean() function to calculate the lifeExp in gapminder dataset
+
 ```{r}
 avg_life <- mean(gapminder$lifeExp)
 avg_life

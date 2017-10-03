@@ -44,6 +44,23 @@ library(tidyverse)
 
 ``` r
 library(ggplot2)
+library(knitr)
+library(ggthemes)
+library(reshape)
+```
+
+    ## 
+    ## Attaching package: 'reshape'
+
+    ## The following object is masked from 'package:dplyr':
+    ## 
+    ##     rename
+
+    ## The following objects are masked from 'package:tidyr':
+    ## 
+    ##     expand, smiths
+
+``` r
 knitr::opts_chunk$set(fig.width=8, fig.height=5)
 ```
 
@@ -60,9 +77,17 @@ Then we extract the max and min from column gdpPercap. Done
 
 ``` r
 gdpper <- gapminder %>% group_by(continent) %>% summarize(maximum_gdpPercap=max(gdpPercap), minimum_gdpPercap=min(gdpPercap))
+kable(gdpper)
 ```
 
-We can use a histogram to draw the table to show the results of maximum GDP.
+| continent    |   maximum\_gdpPercap|                            minimum\_gdpPercap|
+|:-------------|--------------------:|---------------------------------------------:|
+| Africa       |             21951.21|                                      241.1659|
+| Americas     |             42951.65|                                     1201.6372|
+| Asia         |            113523.13|                                      331.0000|
+| Europe       |             49357.19|                                      973.5332|
+| Oceania      |             34435.37|                                    10039.5956|
+| We can use a |  histogram to draw t|  he table to show the results of maximum GDP.|
 
 ``` r
 ggplot(gdpper, aes(gdpper$continent, gdpper$maximum_gdpPercap, fill=gdpper$continent)) + geom_bar(stat="identity",position="dodge")+geom_text(aes(label=gdpper$maximum_gdpPercap),position=position_dodge(width=0.9), vjust=-0.25)
@@ -82,98 +107,170 @@ ggplot(gdpper, aes(gdpper$continent, gdpper$minimum_gdpPercap, fill=gdpper$conti
 
 Hmm, It is quite clear that Africa indeed has the lowest GDP.
 
-BTW, so if we want the data of continents by year?
-
-``` r
-gapminder %>% group_by(continent, year) %>% summarise_each(funs(min, max), gdpPercap)
-```
-
-    ## `summarise_each()` is deprecated.
-    ## Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead.
-    ## To map `funs` over a selection of variables, use `summarise_at()`
-
-    ## # A tibble: 60 x 4
-    ## # Groups:   continent [?]
-    ##    continent  year gdpPercap_min gdpPercap_max
-    ##       <fctr> <int>         <dbl>         <dbl>
-    ##  1    Africa  1952      298.8462      4725.296
-    ##  2    Africa  1957      335.9971      5487.104
-    ##  3    Africa  1962      355.2032      6757.031
-    ##  4    Africa  1967      412.9775     18772.752
-    ##  5    Africa  1972      464.0995     21011.497
-    ##  6    Africa  1977      502.3197     21951.212
-    ##  7    Africa  1982      462.2114     17364.275
-    ##  8    Africa  1987      389.8762     11864.408
-    ##  9    Africa  1992      410.8968     13522.158
-    ## 10    Africa  1997      312.1884     14722.842
-    ## # ... with 50 more rows
-
 ### Question2: Look at the spread of GDP per capita within the continents
 
 We also need to groupby the gapminder by continents and then create subview in (continent, gdpPercap), then filter by continents and then do respective summary()
 
+The spread of gdpPercap by for all country starting from the smallest gdpPercap to the largest. Because the country name is hard to display on the x-axis, then we will use index instead. It is quite clear for the trend.
+
 For Asia
 
 ``` r
-asia<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Asia")%>%arrange(gdpPercap)
+summary(asia<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Asia")%>%arrange(gdpPercap))
+```
+
+    ##     continent     gdpPercap     
+    ##  Africa  :  0   Min.   :   331  
+    ##  Americas:  0   1st Qu.:  1057  
+    ##  Asia    :396   Median :  2647  
+    ##  Europe  :  0   Mean   :  7902  
+    ##  Oceania :  0   3rd Qu.:  8549  
+    ##                 Max.   :113523
+
+``` r
 ggplot(asia, aes(x=row.names(asia), y = asia$gdpPercap, group=1)) + geom_bar(stat="identity",position="dodge", fill = "dark blue")+labs(x = "Index", y = "GDP PerCap", title = "GDP Trend Line of Asia")+scale_x_discrete(limits= row.names(asia))+ theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-6-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-5-1.png)
 
 For Europe
 
 ``` r
-europe<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Europe")%>%arrange(gdpPercap)
+summary(europe<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Europe")%>%arrange(gdpPercap))
+```
+
+    ##     continent     gdpPercap      
+    ##  Africa  :  0   Min.   :  973.5  
+    ##  Americas:  0   1st Qu.: 7213.1  
+    ##  Asia    :  0   Median :12081.8  
+    ##  Europe  :360   Mean   :14469.5  
+    ##  Oceania :  0   3rd Qu.:20461.4  
+    ##                 Max.   :49357.2
+
+``` r
 ggplot(europe, aes(x=row.names(europe), y = europe$gdpPercap, group=1)) + geom_bar(stat="identity",position="dodge", fill = "dark blue")+labs(x = "Index", y = "GDP PerCap", title = "GDP Trend Line of Europe")+scale_x_discrete(limits= row.names(europe))+ theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-7-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-6-1.png)
 
 For Africa
 
 ``` r
-africa<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Africa")%>%arrange(gdpPercap)
+summary(africa<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Africa")%>%arrange(gdpPercap))
+```
+
+    ##     continent     gdpPercap      
+    ##  Africa  :624   Min.   :  241.2  
+    ##  Americas:  0   1st Qu.:  761.2  
+    ##  Asia    :  0   Median : 1192.1  
+    ##  Europe  :  0   Mean   : 2193.8  
+    ##  Oceania :  0   3rd Qu.: 2377.4  
+    ##                 Max.   :21951.2
+
+``` r
 ggplot(africa, aes(x=row.names(africa), y = africa$gdpPercap, group=1)) + geom_bar(stat="identity",position="dodge", fill = "dark blue")+labs(x = "Index", y = "GDP PerCap", title = "GDP Trend Line of Africa")+scale_x_discrete(limits= row.names(africa))+ theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-8-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-7-1.png)
 
 For Americas
 
 ``` r
-america<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Americas")%>%arrange(gdpPercap)
+summary(america<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Americas")%>%arrange(gdpPercap))
+```
+
+    ##     continent     gdpPercap    
+    ##  Africa  :  0   Min.   : 1202  
+    ##  Americas:300   1st Qu.: 3428  
+    ##  Asia    :  0   Median : 5466  
+    ##  Europe  :  0   Mean   : 7136  
+    ##  Oceania :  0   3rd Qu.: 7830  
+    ##                 Max.   :42952
+
+``` r
 ggplot(america, aes(x=row.names(america), y = america$gdpPercap, group=1)) + geom_bar(stat="identity",position="dodge", fill = "dark blue")+labs(x = "Index", y = "GDP PerCap", title = "GDP Trend Line of America")+scale_x_discrete(limits= row.names(america))+ theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-9-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-8-1.png)
 
 For Oceania
 
 ``` r
-oceania<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Oceania")%>%arrange(gdpPercap)
+summary(oceania<-gapminder %>% group_by(continent) %>% select(continent, gdpPercap) %>% filter(continent=="Oceania")%>%arrange(gdpPercap))
+```
+
+    ##     continent    gdpPercap    
+    ##  Africa  : 0   Min.   :10040  
+    ##  Americas: 0   1st Qu.:14142  
+    ##  Asia    : 0   Median :17983  
+    ##  Europe  : 0   Mean   :18622  
+    ##  Oceania :24   3rd Qu.:22214  
+    ##                Max.   :34435
+
+``` r
 ggplot(oceania, aes(x=row.names(oceania), y = oceania$gdpPercap, group=1)) + geom_bar(stat="identity",position="dodge", fill = "dark blue")+labs(x = "Index", y = "GDP PerCap", title = "GDP Trend Line of Oceania")+scale_x_discrete(limits= row.names(oceania))+ theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-10-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-9-1.png)
+
+Then let's do an overview of the whoe five continents
+
+``` r
+kable(gapminder %>% 
+group_by(continent) %>% 
+summarize(mean=mean(gdpPercap),min=min(gdpPercap), max=max(gdpPercap), std=sd(gdpPercap), q25=quantile(gdpPercap, probs=.25), q50=quantile(gdpPercap, probs=.5), q75=quantile(gdpPercap, probs=.75)))
+```
+
+| continent |       mean|         min|        max|        std|        q25|        q50|        q75|
+|:----------|----------:|-----------:|----------:|----------:|----------:|----------:|----------:|
+| Africa    |   2193.755|    241.1659|   21951.21|   2827.930|    761.247|   1192.138|   2377.417|
+| Americas  |   7136.110|   1201.6372|   42951.65|   6396.764|   3427.779|   5465.510|   7830.210|
+| Asia      |   7902.150|    331.0000|  113523.13|  14045.373|   1056.993|   2646.787|   8549.256|
+| Europe    |  14469.476|    973.5332|   49357.19|   9355.213|   7213.085|  12081.749|  20461.386|
+| Oceania   |  18621.609|  10039.5956|   34435.37|   6358.983|  14141.859|  17983.304|  22214.117|
+
+Then let's try box plots to take a look by taking a log10 scale to solve unballance between different continents.
+
+``` r
+ggplot(gapminder, aes(x=continent, y=gdpPercap)) +
+  geom_boxplot(outlier.colour = "blue", alpha=0.5, size=1, shape=1)  +
+  scale_y_log10()
+```
+
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-1.png)
 
 ### Question3: Compute a trimmed mean of life expectancy for different years.
 
 How to compute a trimmed mean of life expectancy for different years? Let's take the trim value = 0.1 for example
 
 ``` r
-years <- gapminder %>% group_by(year) %>% select(year, lifeExp) %>% summarise_each(funs(mean(lifeExp, trim=0.1)), lifeExp)
+kable(years <- gapminder %>% group_by(year) %>% select(year, lifeExp) %>% summarise_each(funs(mean(lifeExp, trim=0.1)), lifeExp))
 ```
 
     ## `summarise_each()` is deprecated.
     ## Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead.
     ## To map `funs` over a selection of variables, use `summarise_at()`
 
+|  year|   lifeExp|
+|-----:|---------:|
+|  1952|  48.57668|
+|  1957|  51.26888|
+|  1962|  53.58075|
+|  1967|  55.86538|
+|  1972|  58.01444|
+|  1977|  60.10206|
+|  1982|  62.11694|
+|  1987|  63.92106|
+|  1992|  65.18519|
+|  1997|  66.01736|
+|  2002|  66.71641|
+|  2007|  68.11489|
+
 ``` r
 ggplot(years, aes(x=year, y = lifeExp)) + geom_bar(stat="identity",position="dodge",fill = "Red")+labs(x = "Year", y = "Life Exp", title = "Life Exp by Year") + theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)
 
 It is quite clear that the life exp increases steadily year by year.
 
@@ -188,7 +285,7 @@ asialifeexp <- gapminder %>% select(continent, year, lifeExp) %>% filter(contine
 ggplot(asialifeexp, aes(x=year, y = avg_life_exp)) + geom_bar(stat="identity",position="dodge",fill = "dark blue")+labs(x = "Year", y = "Life Exp", title = "Life Exp by Year for Asia") + theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-1.png)
 
 America starts from about 44 to 66 overall.
 
@@ -199,7 +296,7 @@ americalifeexp <- gapminder %>% select(continent, year, lifeExp) %>% filter(cont
 ggplot(americalifeexp, aes(x=year, y = avg_life_exp)) + geom_bar(stat="identity",position="dodge",fill = "dark blue")+labs(x = "Year", y = "Life Exp", title = "Life Exp by Year for America") + theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-1.png)
 
 America starts from about 54 to 68 overall.
 
@@ -210,7 +307,7 @@ africalifeexp <- gapminder %>% select(continent, year, lifeExp) %>% filter(conti
 ggplot(africalifeexp, aes(x=year, y = avg_life_exp)) + geom_bar(stat="identity",position="dodge",fill = "dark blue")+labs(x = "Year", y = "Life Exp", title = "Life Exp by Year for Africa") + theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png)
 
 Africa seems to be starting from 39 to 46.
 
@@ -221,7 +318,7 @@ oceanialifeexp <- gapminder %>% select(continent, year, lifeExp) %>% filter(cont
 ggplot(oceanialifeexp, aes(x=year, y = avg_life_exp)) + geom_bar(stat="identity",position="dodge",fill = "dark blue")+labs(x = "Year", y = "Life Exp", title = "Life Exp by Year for Oceania") + theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-1.png)
 
 So it is quite clear that the life of Oceania increase from about 64 to 81. Wow so high!
 
@@ -232,13 +329,13 @@ europelifeexp <- gapminder %>% select(continent, year, lifeExp) %>% filter(conti
 ggplot(europelifeexp, aes(x=year, y = avg_life_exp)) + geom_bar(stat="identity",position="dodge",fill = "dark blue")+labs(x = "Year", y = "Life Exp", title = "Life Exp by Year for Europe") + theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-17-1.png)
 
 So it is quite clear that the life of Europe increase from more than 60 to 78.
 
 ### Question 5: Find countries whose life expectancy is lower than the average of the world
 
-First we need to compute the average life expectancy of the world for all the years together.
+First we need to compute the average life expectancy of the world for all the years together, which I want to take it in an easy way, just use the mean() function to calculate the lifeExp in gapminder dataset
 
 ``` r
 avg_life <- mean(gapminder$lifeExp)
@@ -255,7 +352,7 @@ below_life <- gapminder%>%group_by(country, continent)%>%summarize(avg_life_exp 
 ggplot(below_life, aes(x=continent, y = n)) + geom_bar(stat="identity",position="dodge",fill = "dark blue")+labs(x = "Continent", y = "Life Exp", title = "Life Exp below average") + theme(plot.title = element_text(hjust = 0.5))+geom_text(aes(label=n), vjust=0)
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-1.png) Wow, it seems that there are total of 70 countries who is under average life exp and Africa accounts for over 81.6% of the total.
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-19-1.png) Wow, it seems that there are total of 70 countries who is under average life exp and Africa accounts for over 81.6% of the total.
 
 ### Question 6: Find countries with interesting stories. Open-ended and, therefore, hard. Promising but unsuccessful attempts are encouraged. This will generate interesting questions to follow up on in class
 
@@ -361,7 +458,7 @@ a<-gapminder%>%filter(country=="Kuwait")%>%select(year, gdpPercap, pop)
 ggplot(a, aes(x=year, y = gdpPercap, color=year)) + geom_line() + geom_point()
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-21-1.png) It is quite interesting that the GDP was quite high in 1950s but in drastically droped between 1970 to 1980 and then slowly recovered... Let's add the population into consideration to see whether it has anything to do with the drop.
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-22-1.png) It is quite interesting that the GDP was quite high in 1950s but in drastically droped between 1970 to 1980 and then slowly recovered... Let's add the population into consideration to see whether it has anything to do with the drop.
 
 We need to do the normalization first by using scale() becasue the popluation number is much larger than the GDP value.
 
@@ -369,7 +466,7 @@ We need to do the normalization first by using scale() becasue the popluation nu
 ggplot(a, aes(x=year)) + geom_point(aes(y=scale(gdpPercap)), ) + geom_line(aes(y=scale(gdpPercap),  color="red")) + geom_point(aes(y=scale(pop))) + geom_line(aes(y=scale(pop)), color = "blue") + labs(title="GDP Change with respective to time and population for Kuwait") + labs(caption="(based on normalized data)")
 ```
 
-![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-22-1.png)
+![](a_deeper_exploration_into_gapminder_dataset_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-23-1.png)
 
 It is quite interesting that the GDP dropped drastically with the soaring growth of human population. Maybe becasue as we all know that during 1970 to 1990, Kuwait had war with Iraq and Iran, which crashed its economy. Maybe that is the reason. It is quite an interesting fact to find how fragile the GDP, or economy is of a country.
 
