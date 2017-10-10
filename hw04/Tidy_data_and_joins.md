@@ -62,7 +62,7 @@ knitr::opts_chunk$set(fig.width=8, fig.height=5)
 Let's do some work buddy!
 -------------------------
 
-### Question 1: Make you own cheatsheet similar to Tyler Rinker???s minimal guide to tidyr
+### Question 1: Make you own cheatsheet similar to Tyler Rinker's minimal guide to tidyr
 
 OK. I have created another page for this task.
 
@@ -231,7 +231,12 @@ kable(result)
 |  2007| Afghanistan |   43.828| Japan     |     82.603|
 |  2007| Japan       |   82.603| Japan     |     82.603|
 
-### Question 5: Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a dplyr join function and make some observations about the process and result. Explore the different types of joins
+### Question 5: Previous TA Andrew MacDonald has a nice data manipulation sampler. Make up a similar set of exercises for yourself, in the abstract or (even better) using Gapminder or other data, and solve them
+
+![The file is at here:](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw04/data_manipulation_sample.md)
+
+
+### Question 6: Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a dplyr join function and make some observations about the process and result. Explore the different types of joins
 
 OK. We will then use the following join methods:
 
@@ -382,7 +387,7 @@ full_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="19
     ## 10     Belgium    Europe  1952  68.000  8730405  8343.1051        <NA>
     ## # ... with 132 more rows
 
-### Question 6: Create your own cheatsheet patterned after mine but focused on something you care about more than comics! Inspirational examples
+### Question 7: Create your own cheatsheet patterned after mine but focused on something you care about more than comics! Inspirational examples
 
 ![The cheetsheet is at here:](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw04/cheetsheet_join.md)
 
