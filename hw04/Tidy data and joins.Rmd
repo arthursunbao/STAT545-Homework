@@ -188,7 +188,7 @@ full_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="19
 ### Question 6: Create your own cheatsheet patterned after mine but focused on something you care about more than comics! Inspirational examples
 
 ![The cheetsheet is at here:](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw04/cheetsheet_join.md
-"My own cheetsheet")
+"My own cheetsheet1")
 
 
 ## Personal Thought
