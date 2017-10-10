@@ -23,6 +23,9 @@ My previous experience lays mainly in **software engineering with development ex
 ![My Third Homework is at here: ](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw03/a_deeper_exploration_into_gapminder_dataset.md
 "Homework3")
 
+![My Forth Homework is at here: ](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw04/Tidy_data_and_joins.md
+"Homework4")
+
 ### Current Course Plan
 Here is a list of to-do list I want to achieve in the course in the future.
 - Learn the basic usage of R
