@@ -66,7 +66,7 @@ Let's do some work buddy!
 
 OK. I have created another page for this task.
 
-![Check it out:](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/Exploration_gapminder.md%20%22Question1%22)
+![Check it out:](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/Exploration_gapminder.md)
 
 ### Question 2: Make a tibble with one row per year and columns for life expectancy for two or more countries
 
@@ -384,7 +384,7 @@ full_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="19
 
 ### Question 6: Create your own cheatsheet patterned after mine but focused on something you care about more than comics! Inspirational examples
 
-![The cheetsheet is at here:](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/hw02/a_deeper_exploration_into_gapminder_dataset.md%20%22My%20own%20cheetsheet%22)
+![The cheetsheet is at here:](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw04/cheetsheet_join.md)
 
 Personal Thought
 ----------------
