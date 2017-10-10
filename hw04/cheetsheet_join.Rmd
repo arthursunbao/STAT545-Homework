@@ -1,0 +1,92 @@
+---
+title: "A cheetsheet for joining method"
+author: "Jason Sun"
+email: "sunb@ece.ubc.ca"
+date: "`r format(Sys.Date())`"
+output: github_document
+---
+
+## Intro
+This is the cheetsheet for joing method Check this out!~
+
+
+## Initial Setup
+We need to load the library first
+
+```{r}
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(gapminder))
+options(geonamesUsername="jasonsunbao")
+library(geonames)
+library(tidyr)
+library(knitr)
+library(dplyr)
+library(gapminder)
+library(reshape2)
+```
+
+## Do some work
+OK. We will then use the following join methods:
+
+- inner_join(dataset1, dataset2)
+
+- semi_join(dataset1, dataset2)
+
+- left_join(dataset1, dataset2)
+
+- anti_join(dataset1, dataset2)
+
+- inner_join(dataset2, dataset1)
+
+- semi_join(dataset2, dataset1)
+
+- left_join(dataset2, dataset1)
+
+- anti_join(dataset2, dataset1)
+
+- full_join(dataset1, dataset2)
+
+Well, the first dataset will be gapminder and the second dataset will be a manually created dataset with first column as country and second column as capital city.
+
+
+```{r}
+options(geonamesUsername="jasonsunbao")
+countryInfo <- GNcountryInfo()
+dataset2 <- countryInfo%>%select(countryName, countryCode)
+dataset1 <- gapminder
+```
+
+Let's try inner_join(), it will get the intersection of the two datasets
+```{r}
+inner_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="1952")
+```
+
+Then Semi_join() will return all rows from x where there are matching values in y, keeping just columns from x
+```{r}
+semi_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="1952")
+```
+
+Then left_join(x, y) will return all rows from x, and all columns from x and y. If there are multiple matches between x and y, all combination of the matches are returned
+
+```{r}
+left_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="1952")
+```
+
+After that is  anti_join(x, y) will eturn all rows from x where there are not matching values in y, keeping just columns from x, which is a filtering join
+
+```{r}
+anti_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="1952")
+```
+
+Finally is full_join(x, y) will return all rows and all columns from both x and y. Where there are not matching values, returns NA for the one missing, which is a mutating join
+
+```{r}
+full_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="1952")
+```
+
+
+
+
+
+

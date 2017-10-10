@@ -1,0 +1,69 @@
+---
+title: "A data manipulation sample"
+author: "Jason Sun"
+email: "sunb@ece.ubc.ca"
+date: "`r format(Sys.Date())`"
+output: github_document
+---
+
+## Intro
+This is the data manipulation sample of Gapminder. Check this out!~
+
+
+## Initial Setup
+We need to load the library first
+
+```{r}
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(gapminder))
+library(tidyr)
+library(knitr)
+library(dplyr)
+library(gapminder)
+library(reshape2)
+```
+
+## Do some work
+Group
+```{r}
+step1 <- gapminder %>% group_by(continent) %>% summarize(Nrows=n(), SumOfCol3=sum(year))
+kable(step1)
+```
+
+Split
+```{r}
+step2 <- dcast(step1,continent~continent,value.var="Nrows")
+kable(step2)
+```
+
+Stack
+```{r}
+step3 <- melt(step2,id="continent") %>% arrange(continent)
+kable(step3)
+```
+
+Join
+```{r}
+step4 = left_join(step3, step3, c=("continent" = "variable"))
+kable(step4)
+```
+
+Subset
+```{r}
+step5 <- step4 %>% filter("continent" == "Africa")
+kable(step5)
+```
+
+Transpose
+```{r}
+transpose <- data.frame(t(step4))
+kable(transpose)
+```
+
+
+
+
+
+
+

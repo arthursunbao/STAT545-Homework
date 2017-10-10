@@ -1,0 +1,195 @@
+---
+title: "Tidy data and joins"
+author: "Jason Sun"
+email: "sunb@ece.ubc.ca"
+date: "`r format(Sys.Date())`"
+output: github_document
+---
+
+## Intro
+
+Today we will try to explore Tidy data and joins
+
+This page will be divided into the following aspects:
+- Make you own cheatsheet similar to Tyler Rinker's minimal guide to tidyr
+
+- Make a tibble with one row per year and columns for life expectancy for two or more countries.
+
+- Compute some measure of life expectancy (mean? median? min? max?) for all possible combinations of continent and year. Reshape that to have one row per year and one variable for each continent. Or the other way around: one row per continent and one variable per year.
+
+- In Window functions, we formed a tibble with 24 rows: 2 per year, giving the country with both the lowest and highest life expectancy (in Asia). Take that table (or a similar one for all continents) and reshape it so you have one row per year or per year * continent combination.
+
+- Previous TA Andrew MacDonald has a nice data manipulation sampler. Make up a similar set of exercises for yourself, in the abstract or (even better) using Gapminder or other data, and solve them.
+
+- Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a  dplyr join function and make some observations about the process and result. Explore the different types of joins. 
+
+- Create your own cheatsheet patterned after mine but focused on something you care about more than comics! 
+
+- Explore the base function merge(), which also does joins. Compare and contrast with dplyr joins.
+
+- Explore the base function match(), which is related to joins and merges, but is really more of a table lookup. Compare and contrast with a true join/merge.
+
+## Initial Setup
+We need to load the Gapminder first
+
+```{r}
+suppressPackageStartupMessages(library(gapminder))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(reshape))
+suppressPackageStartupMessages(library(tidyr))
+library(gapminder)
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+library(ggthemes)
+library(reshape)
+library(tidyr)
+library(geonames)
+knitr::opts_chunk$set(fig.width=8, fig.height=5)
+```
+
+## Let's do some work buddy!
+### Question 1: Make you own cheatsheet similar to Tyler Rinker???s minimal guide to tidyr
+OK. I have created another page for this task.
+
+![Check it out:
+](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/Exploration_gapminder.md
+"Question1")
+
+### Question 2: Make a tibble with one row per year and columns for life expectancy for two or more countries
+
+Tibbles are a modern take on data frames. They keep the features that have stood the test of time, and drop the features that used to be convenient but are now frustrating (i.e. converting character vectors to factors)
+
+So basically we fill first create a number sequence starting from 1900 to 2010 named year. Then we need to filter out the lifeExp of China and Japan and then do the full_join one by one on the first number sequence. Then we filter out those without life expectency. Then done!
+
+```{r}
+total<-tibble(year=1900:2010)
+china <- gapminder%>%filter(country=="China")%>%select(year, lifeExp)
+japan <- gapminder%>%filter(country=="Japan")%>%select(year, lifeExp)
+left_china <- full_join(total, china)
+left_japan <- full_join(left_china, japan, by="year")
+result <- left_japan %>% filter(lifeExp.x != "NA")
+kable(result)
+```
+
+### Question 3: Make a tibble with one row per year and columns for life expectancy for two or more countries
+Let's first distract the mean lifeExp for each continents and then do full_join() and then filter(), just like Question2
+
+```{r}
+Asia<-gapminder%>%filter(continent=="Asia")%>%arrange(year)%>%select(year,lifeExp)%>%group_by(year)%>%summarize(avg_life=mean(lifeExp))
+
+Europe<-gapminder%>%filter(continent=="Europe")%>%arrange(year)%>%select(year,lifeExp)%>%group_by(year)%>%summarize(avg_life=mean(lifeExp))
+
+Africa<-gapminder%>%filter(continent=="Africa")%>%arrange(year)%>%select(year,lifeExp)%>%group_by(year)%>%summarize(avg_life=mean(lifeExp))
+
+Americas<-gapminder%>%filter(continent=="Americas")%>%arrange(year)%>%select(year,lifeExp)%>%group_by(year)%>%summarize(avg_life=mean(lifeExp))
+
+Oceania<-gapminder%>%filter(continent=="Oceania")%>%arrange(year)%>%select(year,lifeExp)%>%group_by(year)%>%summarize(avg_life=mean(lifeExp))
+
+total<-tibble(year=1900:2010)
+
+left_asia <- full_join(total, Asia)
+
+left_europe <- full_join(left_asia, Europe, by="year")
+
+left_africa <- full_join(left_europe, Africa, by="year")
+
+left_america <- full_join(left_africa, Americas, by="year")
+
+left_all <- full_join(left_america, Oceania, by="year")
+
+result <- left_all %>% filter(avg_life.x != "NA")
+
+kable(result)
+
+```
+
+### Question 4: Make a tibble with one row per year and columns for life expectancy for two or more countries
+
+In Window functions, we formed a tibble with 24 rows: 2 per year, giving the country with both the lowest and highest life expectancy (in Asia). Take that table (or a similar one for all continents) and reshape it so you have one row per year or per year * continent combination
+
+We first the the table from the window function stored as temp and then we do the transformation. The transformation is basically take the odd line and join the previous upper line, which is quite easy.
+
+```{r}
+
+temp <- gapminder %>% filter(continent == "Asia") %>% select(year, country, lifeExp) %>% group_by(year) %>% filter(min_rank(desc(lifeExp)) < 2 | min_rank(lifeExp) < 2) %>% arrange(year) %>% print(n = Inf)
+
+even_sequence=seq(2,24,2)
+
+temp_even <- data.frame(x=temp[even_sequence, ])
+
+result <- full_join(temp, temp_even, c("year" ="x.year"))
+
+kable(result)
+```
+
+### Question 5: Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a  dplyr join function and make some observations about the process and result. Explore the different types of joins
+
+OK. We will then use the following join methods:
+
+- inner_join(dataset1, dataset2)
+
+- semi_join(dataset1, dataset2)
+
+- left_join(dataset1, dataset2)
+
+- anti_join(dataset1, dataset2)
+
+- inner_join(dataset2, dataset1)
+
+- semi_join(dataset2, dataset1)
+
+- left_join(dataset2, dataset1)
+
+- anti_join(dataset2, dataset1)
+
+- full_join(dataset1, dataset2)
+
+Well, the first dataset will be gapminder and the second dataset will be a manually created dataset with first column as country and second column as capital city.
+
+
+```{r}
+options(geonamesUsername="jasonsunbao")
+countryInfo <- GNcountryInfo()
+dataset2 <- countryInfo%>%select(countryName, countryCode)
+dataset1 <- gapminder
+```
+
+Let's try inner_join(), it will get the intersection of the two datasets
+```{r}
+inner_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="1952")
+```
+
+Then Semi_join() will return all rows from x where there are matching values in y, keeping just columns from x
+```{r}
+semi_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="1952")
+```
+
+Then left_join(x, y) will return all rows from x, and all columns from x and y. If there are multiple matches between x and y, all combination of the matches are returned
+
+```{r}
+left_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="1952")
+```
+
+After that is  anti_join(x, y) will eturn all rows from x where there are not matching values in y, keeping just columns from x, which is a filtering join
+
+```{r}
+anti_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="1952")
+```
+
+Finally is full_join(x, y) will return all rows and all columns from both x and y. Where there are not matching values, returns NA for the one missing, which is a mutating join
+
+```{r}
+full_join(dataset1, dataset2, c("country" = "countryName")) %>% filter(year=="1952")
+```
+
+### Question 6: Create your own cheatsheet patterned after mine but focused on something you care about more than comics! Inspirational examples
+
+![The cheetsheet is at here:](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/hw02/a_deeper_exploration_into_gapminder_dataset.md
+"My own cheetsheet")
+
+
+## Personal Thought
+It is not so much harder than hw03 as there is not so many plotting in this homework. Basically is it all about all kinds of joining method and respecitve application, which is easy to understand but a little bit tricky to work in real world. Afterall it is a nice trial and learning for R in its in-depth application. 
