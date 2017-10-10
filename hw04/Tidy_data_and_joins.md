@@ -66,7 +66,7 @@ Let's do some work buddy!
 
 OK. I have created another page for this task.
 
-![Check it out:](https://github.com/arthursunbao/STAT545-hw01--Bao-Sun/blob/master/Exploration_gapminder.md)
+![Check it out:](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw04/tidyr_cheetsheet.md)
 
 ### Question 2: Make a tibble with one row per year and columns for life expectancy for two or more countries
 
