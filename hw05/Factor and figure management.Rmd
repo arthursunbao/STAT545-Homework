@@ -1,0 +1,201 @@
+---
+title: "Tidy data and joins"
+author: "Jason Sun"
+email: "sunb@ece.ubc.ca"
+date: "`r format(Sys.Date())`"
+output: github_document
+---
+
+## Intro
+
+Today we will try to Factor and figure management
+
+This page will be divided into the following aspects:
+
+- Reorder a factor in a principled way based on the data and demonstrate the effect in arranged data and in figures.
+
+- Experiment with one or more of write_csv()/read_csv() (and/or TSV friends), saveRDS()/readRDS(), dput()/dget()
+
+
+- Improve a figure (or make one from scratch), using new knowledge, e.g., control the color scheme, use factor levels, smoother mechanics.
+
+- Implement visualization design principles.
+
+- Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via ![Alt text](/path/to/img.png).
+
+- Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
+
+## Initial Setup
+We need to load the Gapminder first
+
+```{r}
+suppressPackageStartupMessages(library(gapminder))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(reshape))
+suppressPackageStartupMessages(library(tidyr))
+library(forcats)
+library(gapminder)
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+library(ggthemes)
+library(reshape)
+library(tidyr)
+library(geonames)
+knitr::opts_chunk$set(fig.width=8, fig.height=5)
+```
+
+## Let's do some work buddy!
+### Question 1: Reorder a factor in a principled way based on the data and demonstrate the effect in arranged data and in figures
+
+I will still use gapminder dataset to do the data maniuputation because that is my most familiar dataset :)
+
+So regarding how to reorder the factor in a principled way. Here is three steps as recommended in class:
+
+- Define factor variables
+- Drop factor / levels
+- Reorder levels based on knowledge from data
+
+So for the gapminder dataset, we will do this:
+
+- Filter the Gapminder data to remove observations associated with the continent of Oceania. 
+
+- Additionally, remove unused factor levels. Provide concrete information on the data before and after removing these rows and Oceania; 
+
+- Address the number of rows and the levels of the affected factors.
+
+- Reorder the levels of country or continent. Use the forcats package to change the order of the factor levels, based on a principled summary of one of the quantitative variables
+
+Let's Go!
+
+Step1: Filter the Gapminder data to remove observations associated with the continent of Oceania
+
+```{r}
+h_continents <- c("Africa", "Asia", "Europe", "Americas")
+h_result <- gapminder %>% filter(continent %in% h_continents)
+h_result
+```
+
+Then it is quite clear that we have already filtered the Oceania out of the scope for now.
+
+Step2: Remove unused factor levels. Provide concrete information on the data before and after removing these rows and Oceania
+
+So we will use droplevels() to drop the unnecessary info from h_result
+```{r}
+temp <- h_result%>%droplevels()
+nlevels(h_result$continent)
+nlevels(temp$continent)
+```
+
+See? the h_result still have 5 and after the droplevels() function applied, the temp is now only 4, which means that it has only 4 factors, where Oceania is now clearly dropped. which clearly shows the difference between them.
+
+Step3: Address the number of rows and the levels of the affected factors
+
+Let's see how many rows are deleted when we droplevels() the Oceania? We can use the count() to see the difference
+```{r}
+count(gapminder$continent)
+fct_count(temp$continent)
+fct_count(temp$continent)
+```
+
+It is quite clear that 24 rows of Oceania is deleted after using the droplevels()
+
+Step4: Reorder the levels of country or continent. Use the forcats package to change the order of the factor levels, based on a principled summary of one of the quantitative variables
+
+So, we will try to change the levels of country by change the order of frequency starting from the largest to the smallest using fct_infreq() function. 
+```{r}
+gapminder$continent %>% fct_infreq() %>% levels() %>% head()
+```
+
+
+
+### Question 2: Experiment with one or more of write_csv()/read_csv() (and/or TSV friends), saveRDS()/readRDS(), dput()/dget() with fiddling with factor levels, and doing some filtering, etc. 
+
+So I reorder the country factor levels according to the life expectancy summary we???ve already computed and then use saveRDS() function to save onto local disk and then using readRDS() to read it from local disk to RAM
+```{r}
+
+life_exp <- gapminder %>% group_by(country, continent) %>% summarise(life_exp = max(lifeExp)) %>%  ungroup()
+
+write_csv(life_exp, "life_exp.csv")
+
+temp_life_exp <- read_csv("life_exp.csv")
+
+result <- temp_life_exp %>% mutate(country = fct_reorder(country, life_exp))
+
+head(levels(result$country))
+
+saveRDS(result, "result.rds")
+
+original_result = readRDS("result.rds")
+
+dput(original_result, "life_exp.txt")
+
+back_result <- dget("life_exp.txt")
+
+back_result
+
+```
+
+Done! A series of saving and reading operation into disk and from disk and finally the final data is the same as the original dataframe.
+
+
+### Question 3: Remake at least one figure or create a new one, in light of something you learned in the recent class meetings about visualization design and color
+
+I will still use the gapminder dataset to do the work. 
+
+I will select 10 countries and keep their data at year 2002, and sort based on GDP per capita. 
+
+```{r}
+temp <-gapminder%>%filter(year == "2002") %>% arrange(gdpPercap)
+
+result = temp[c(1,2,7,10,76,111),]
+
+j_xlim <- c(460, 50000)
+j_ylim <- c(24, 82)
+picture <- plot(lifeExp ~ gdpPercap, result, log = 'x', xlim = j_xlim, ylim = j_ylim, main = "First Plot")
+
+picture
+```
+
+Then we use ggsave() to save it to local disk. 
+
+The argument of ggsave() is like this:
+
+ggsave(filename, plot = last_plot(), device = NULL, path = NULL,
+
+scale = 1, width = NA, height = NA, units = c("in", "cm", "mm"),
+
+dpi = 300, limitsize = TRUE, ...)
+
+So I will save it 
+
+```{r}
+ggsave("temp_picture.png", plot = picture, path="/Users/jasonsun/stat545/work1/STAT545-hw01--Bao-Sun/hw05")
+
+```
+
+Then I will take
+
+
+Ok, to be honest, the plot is not so nice to see right? Then we can do some changing to make it more beautiful by specifying each invididual color one by one 
+
+```{r}
+j_colors <- c('chartreuse3', 'cornflowerblue', 'darkgoldenrod1', 'peachpuff3', 'mediumorchid2', 'turquoise3', 'wheat4', 'slategray2')
+plot(lifeExp ~ gdpPercap, result, log = 'x', xlim = j_xlim, ylim = j_ylim, col = j_colors, main = 'Beautiful Colors to see!') + with(result, text(x = gdpPercap, y = lifeExp, labels = j_colors, pos = rep(c(1, 3, 1), c(5, 1, 2))))
+```
+
+So we save the plot into .png picture file.
+```{r}
+ggsave("temp_picture1.png", picture)
+```
+
+
+
+### Question4 Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
+
+OK That is easy. I have made respective folders for each homework starting from homework1 to homework5 with each folder containg a readme with links directly into the RMD file as well as a general readme file in the parent folder of all the files. Please check! :)
+
+## Personal Thought
+It is the final homework for stat545 and it found it quite useful for this homework becasue we can work on the file saving, opening, which is a very common scenario during normal work. Also focus on the factor management, plot visualization improvement, etc. Generally it is not difficult as long as you do spend some time in the work. So I found it useful as I will use this as my future cheetsheet in my R development. 
