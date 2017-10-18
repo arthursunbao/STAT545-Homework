@@ -21,7 +21,7 @@ This page will be divided into the following aspects:
 
 - Implement visualization design principles.
 
-- Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via ![Alt text](/path/to/img.png).
+- Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via.
 
 - Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
 
@@ -95,8 +95,7 @@ Step3: Address the number of rows and the levels of the affected factors
 
 Let's see how many rows are deleted when we droplevels() the Oceania? We can use the count() to see the difference
 ```{r}
-count(gapminder$continent)
-fct_count(temp$continent)
+gapminder %>% count(gapminder$continent)
 fct_count(temp$continent)
 ```
 
@@ -108,7 +107,6 @@ So, we will try to change the levels of country by change the order of frequency
 ```{r}
 gapminder$continent %>% fct_infreq() %>% levels() %>% head()
 ```
-
 
 
 ### Question 2: Experiment with one or more of write_csv()/read_csv() (and/or TSV friends), saveRDS()/readRDS(), dput()/dget() with fiddling with factor levels, and doing some filtering, etc. 
@@ -140,7 +138,6 @@ back_result
 
 Done! A series of saving and reading operation into disk and from disk and finally the final data is the same as the original dataframe.
 
-
 ### Question 3: Remake at least one figure or create a new one, in light of something you learned in the recent class meetings about visualization design and color
 
 I will still use the gapminder dataset to do the work. 
@@ -154,9 +151,9 @@ result = temp[c(1,2,7,10,76,111),]
 
 j_xlim <- c(460, 50000)
 j_ylim <- c(24, 82)
+
 picture <- plot(lifeExp ~ gdpPercap, result, log = 'x', xlim = j_xlim, ylim = j_ylim, main = "First Plot")
 
-picture
 ```
 
 Then we use ggsave() to save it to local disk. 
@@ -173,11 +170,7 @@ So I will save it
 
 ```{r}
 ggsave("temp_picture.png", plot = picture, path="/Users/jasonsun/stat545/work1/STAT545-hw01--Bao-Sun/hw05")
-
 ```
-
-Then I will take
-
 
 Ok, to be honest, the plot is not so nice to see right? Then we can do some changing to make it more beautiful by specifying each invididual color one by one 
 
@@ -190,8 +183,6 @@ So we save the plot into .png picture file.
 ```{r}
 ggsave("temp_picture1.png", picture)
 ```
-
-
 
 ### Question4 Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
 

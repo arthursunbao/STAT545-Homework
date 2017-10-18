@@ -1,7 +1,7 @@
 Tidy data and joins
 ================
 Jason Sun
-2017-10-14
+2017-10-15
 
 Intro
 -----
@@ -18,7 +18,7 @@ This page will be divided into the following aspects:
 
 -   Implement visualization design principles.
 
--   Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via ![Alt text](/path/to/img.png).
+-   Write some data to file and load it back into R. E.g., save a plot to file and include it in a R Markdown report via.
 
 -   Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
 
@@ -129,6 +129,31 @@ Step3: Address the number of rows and the levels of the affected factors
 
 Let's see how many rows are deleted when we droplevels() the Oceania? We can use the count() to see the difference
 
+``` r
+gapminder %>% count(gapminder$continent)
+```
+
+    ## # A tibble: 5 x 2
+    ##   `gapminder$continent`     n
+    ##                  <fctr> <int>
+    ## 1                Africa   624
+    ## 2              Americas   300
+    ## 3                  Asia   396
+    ## 4                Europe   360
+    ## 5               Oceania    24
+
+``` r
+fct_count(temp$continent)
+```
+
+    ## # A tibble: 4 x 2
+    ##          f     n
+    ##     <fctr> <int>
+    ## 1   Africa   624
+    ## 2 Americas   300
+    ## 3     Asia   396
+    ## 4   Europe   360
+
 It is quite clear that 24 rows of Oceania is deleted after using the droplevels()
 
 Step4: Reorder the levels of country or continent. Use the forcats package to change the order of the factor levels, based on a principled summary of one of the quantitative variables
@@ -202,7 +227,63 @@ Done! A series of saving and reading operation into disk and from disk and final
 
 I will still use the gapminder dataset to do the work.
 
+I will select 10 countries and keep their data at year 2002, and sort based on GDP per capita.
+
+``` r
+temp <-gapminder%>%filter(year == "2002") %>% arrange(gdpPercap)
+
+result = temp[c(1,2,7,10,76,111),]
+
+j_xlim <- c(460, 50000)
+j_ylim <- c(24, 82)
+
+picture <- plot(lifeExp ~ gdpPercap, result, log = 'x', xlim = j_xlim, ylim = j_ylim, main = "First Plot")
+```
+
+![](Factor_and_figure_management_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-7-1.png)
+
+Then we use ggsave() to save it to local disk.
+
+The argument of ggsave() is like this:
+
+ggsave(filename, plot = last\_plot(), device = NULL, path = NULL,
+
+scale = 1, width = NA, height = NA, units = c("in", "cm", "mm"),
+
+dpi = 300, limitsize = TRUE, ...)
+
+So I will save it
+
+``` r
+ggsave("temp_picture.png", plot = picture, path="/Users/jasonsun/stat545/work1/STAT545-hw01--Bao-Sun/hw05")
+```
+
+    ## Saving 8 x 5 in image
+
+Ok, to be honest, the plot is not so nice to see right? Then we can do some changing to make it more beautiful by specifying each invididual color one by one
+
+``` r
+j_colors <- c('chartreuse3', 'cornflowerblue', 'darkgoldenrod1', 'peachpuff3', 'mediumorchid2', 'turquoise3', 'wheat4', 'slategray2')
+plot(lifeExp ~ gdpPercap, result, log = 'x', xlim = j_xlim, ylim = j_ylim, col = j_colors, main = 'Beautiful Colors to see!') + with(result, text(x = gdpPercap, y = lifeExp, labels = j_colors, pos = rep(c(1, 3, 1), c(5, 1, 2))))
+```
+
+![](Factor_and_figure_management_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-9-1.png)
+
+    ## integer(0)
+
+So we save the plot into .png picture file.
+
+``` r
+ggsave("temp_picture1.png", picture)
+```
+
+    ## Saving 8 x 5 in image
+
+### Question4 Organise your github, to celebrate the completion of STAT 545 and/or to prepare for the glorious future of STAT 547.
+
+OK That is easy. I have made respective folders for each homework starting from homework1 to homework5 with each folder containg a readme with links directly into the RMD file as well as a general readme file in the parent folder of all the files. Please check! :)
+
 Personal Thought
 ----------------
 
-It is not so much harder than hw03 as there is not so many plotting in this homework. Basically is it all about all kinds of joining method and respecitve application, which is easy to understand but a little bit tricky to work in real world. Afterall it is a nice trial and learning for R in its in-depth application.
+It is the final homework for stat545 and it found it quite useful for this homework becasue we can work on the file saving, opening, which is a very common scenario during normal work. Also focus on the factor management, plot visualization improvement, etc. Generally it is not difficult as long as you do spend some time in the work. So I found it useful as I will use this as my future cheetsheet in my R development.
