@@ -11,7 +11,7 @@ This is the folder for STAT545 Homework4: Tidy data and joins
 
 Basically we will introduce the dataset according to these following fields: 
 
-- Make you own cheatsheet similar to Tyler Rinker???s minimal guide to tidyr.
+- Make you own cheatsheet similar to Tyler Rinker's minimal guide to tidyr.
 
 - Make a tibble with one row per year and columns for life expectancy for two or more countries.
 
