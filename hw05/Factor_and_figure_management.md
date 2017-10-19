@@ -1,7 +1,7 @@
 Tidy data and joins
 ================
 Jason Sun
-2017-10-15
+2017-10-18
 
 Intro
 -----
@@ -47,12 +47,6 @@ library(knitr)
 library(ggthemes)
 library(reshape)
 library(tidyr)
-library(geonames)
-```
-
-    ## No geonamesUsername set. See http://geonames.wordpress.com/2010/03/16/ddos-part-ii/ and set one with options(geonamesUsername="foo") for some services to work
-
-``` r
 knitr::opts_chunk$set(fig.width=8, fig.height=5)
 ```
 
@@ -81,7 +75,7 @@ So for the gapminder dataset, we will do this:
 
 Let's Go!
 
-Step1: Filter the Gapminder data to remove observations associated with the continent of Oceania
+**Step1: Filter the Gapminder data to remove observations associated with the continent of Oceania**
 
 ``` r
 h_continents <- c("Africa", "Asia", "Europe", "Americas")
@@ -106,7 +100,7 @@ h_result
 
 Then it is quite clear that we have already filtered the Oceania out of the scope for now.
 
-Step2: Remove unused factor levels. Provide concrete information on the data before and after removing these rows and Oceania
+**Step2: Remove unused factor levels. Provide concrete information on the data before and after removing these rows and Oceania**
 
 So we will use droplevels() to drop the unnecessary info from h\_result
 
@@ -125,7 +119,7 @@ nlevels(temp$continent)
 
 See? the h\_result still have 5 and after the droplevels() function applied, the temp is now only 4, which means that it has only 4 factors, where Oceania is now clearly dropped. which clearly shows the difference between them.
 
-Step3: Address the number of rows and the levels of the affected factors
+**Step3: Address the number of rows and the levels of the affected factors**
 
 Let's see how many rows are deleted when we droplevels() the Oceania? We can use the count() to see the difference
 
@@ -156,7 +150,7 @@ fct_count(temp$continent)
 
 It is quite clear that 24 rows of Oceania is deleted after using the droplevels()
 
-Step4: Reorder the levels of country or continent. Use the forcats package to change the order of the factor levels, based on a principled summary of one of the quantitative variables
+**Step4: Reorder the levels of country or continent. Use the forcats package to change the order of the factor levels, based on a principled summary of one of the quantitative variables**
 
 So, we will try to change the levels of country by change the order of frequency starting from the largest to the smallest using fct\_infreq() function.
 
@@ -168,11 +162,36 @@ gapminder$continent %>% fct_infreq() %>% levels() %>% head()
 
 ### Question 2: Experiment with one or more of write\_csv()/read\_csv() (and/or TSV friends), saveRDS()/readRDS(), dput()/dget() with fiddling with factor levels, and doing some filtering, etc.
 
-So I reorder the country factor levels according to the life expectancy summary we???ve already computed and then use saveRDS() function to save onto local disk and then using readRDS() to read it from local disk to RAM
+So I reorder the country factor levels according to the life expectancy summary we've already computed and then use saveRDS() function to save onto local disk and then using readRDS() to read it from local disk to RAM
 
 ``` r
 life_exp <- gapminder %>% group_by(country, continent) %>% summarise(life_exp = max(lifeExp)) %>%  ungroup()
+```
 
+So the original dataset is like this
+
+``` r
+life_exp
+```
+
+    ## # A tibble: 142 x 3
+    ##        country continent life_exp
+    ##         <fctr>    <fctr>    <dbl>
+    ##  1 Afghanistan      Asia   43.828
+    ##  2     Albania    Europe   76.423
+    ##  3     Algeria    Africa   72.301
+    ##  4      Angola    Africa   42.731
+    ##  5   Argentina  Americas   75.320
+    ##  6   Australia   Oceania   81.235
+    ##  7     Austria    Europe   79.829
+    ##  8     Bahrain      Asia   75.635
+    ##  9  Bangladesh      Asia   64.062
+    ## 10     Belgium    Europe   79.441
+    ## # ... with 132 more rows
+
+Then we do some changing work by reading and saving the dataset.
+
+``` r
 write_csv(life_exp, "life_exp.csv")
 
 temp_life_exp <- read_csv("life_exp.csv")
@@ -240,7 +259,7 @@ j_ylim <- c(24, 82)
 picture <- plot(lifeExp ~ gdpPercap, result, log = 'x', xlim = j_xlim, ylim = j_ylim, main = "First Plot")
 ```
 
-![](Factor_and_figure_management_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-7-1.png)
+![](Factor_and_figure_management_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-9-1.png)
 
 Then we use ggsave() to save it to local disk.
 
@@ -267,7 +286,7 @@ j_colors <- c('chartreuse3', 'cornflowerblue', 'darkgoldenrod1', 'peachpuff3', '
 plot(lifeExp ~ gdpPercap, result, log = 'x', xlim = j_xlim, ylim = j_ylim, col = j_colors, main = 'Beautiful Colors to see!') + with(result, text(x = gdpPercap, y = lifeExp, labels = j_colors, pos = rep(c(1, 3, 1), c(5, 1, 2))))
 ```
 
-![](Factor_and_figure_management_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-9-1.png)
+![](Factor_and_figure_management_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-1.png)
 
     ## integer(0)
 

@@ -43,7 +43,6 @@ library(knitr)
 library(ggthemes)
 library(reshape)
 library(tidyr)
-library(geonames)
 knitr::opts_chunk$set(fig.width=8, fig.height=5)
 ```
 
@@ -70,7 +69,7 @@ So for the gapminder dataset, we will do this:
 
 Let's Go!
 
-Step1: Filter the Gapminder data to remove observations associated with the continent of Oceania
+**Step1: Filter the Gapminder data to remove observations associated with the continent of Oceania**
 
 ```{r}
 h_continents <- c("Africa", "Asia", "Europe", "Americas")
@@ -80,7 +79,7 @@ h_result
 
 Then it is quite clear that we have already filtered the Oceania out of the scope for now.
 
-Step2: Remove unused factor levels. Provide concrete information on the data before and after removing these rows and Oceania
+**Step2: Remove unused factor levels. Provide concrete information on the data before and after removing these rows and Oceania**
 
 So we will use droplevels() to drop the unnecessary info from h_result
 ```{r}
@@ -91,7 +90,7 @@ nlevels(temp$continent)
 
 See? the h_result still have 5 and after the droplevels() function applied, the temp is now only 4, which means that it has only 4 factors, where Oceania is now clearly dropped. which clearly shows the difference between them.
 
-Step3: Address the number of rows and the levels of the affected factors
+**Step3: Address the number of rows and the levels of the affected factors**
 
 Let's see how many rows are deleted when we droplevels() the Oceania? We can use the count() to see the difference
 ```{r}
@@ -101,7 +100,7 @@ fct_count(temp$continent)
 
 It is quite clear that 24 rows of Oceania is deleted after using the droplevels()
 
-Step4: Reorder the levels of country or continent. Use the forcats package to change the order of the factor levels, based on a principled summary of one of the quantitative variables
+**Step4: Reorder the levels of country or continent. Use the forcats package to change the order of the factor levels, based on a principled summary of one of the quantitative variables**
 
 So, we will try to change the levels of country by change the order of frequency starting from the largest to the smallest using fct_infreq() function. 
 ```{r}
@@ -111,11 +110,23 @@ gapminder$continent %>% fct_infreq() %>% levels() %>% head()
 
 ### Question 2: Experiment with one or more of write_csv()/read_csv() (and/or TSV friends), saveRDS()/readRDS(), dput()/dget() with fiddling with factor levels, and doing some filtering, etc. 
 
-So I reorder the country factor levels according to the life expectancy summary we???ve already computed and then use saveRDS() function to save onto local disk and then using readRDS() to read it from local disk to RAM
+So I reorder the country factor levels according to the life expectancy summary we've already computed and then use saveRDS() function to save onto local disk and then using readRDS() to read it from local disk to RAM
 ```{r}
 
 life_exp <- gapminder %>% group_by(country, continent) %>% summarise(life_exp = max(lifeExp)) %>%  ungroup()
 
+
+
+```
+
+So the original dataset is like this
+```{r}
+life_exp
+```
+
+Then we do some changing work by reading and saving the dataset.
+
+```{r}
 write_csv(life_exp, "life_exp.csv")
 
 temp_life_exp <- read_csv("life_exp.csv")
@@ -154,22 +165,6 @@ j_ylim <- c(24, 82)
 
 picture <- plot(lifeExp ~ gdpPercap, result, log = 'x', xlim = j_xlim, ylim = j_ylim, main = "First Plot")
 
-```
-
-Then we use ggsave() to save it to local disk. 
-
-The argument of ggsave() is like this:
-
-ggsave(filename, plot = last_plot(), device = NULL, path = NULL,
-
-scale = 1, width = NA, height = NA, units = c("in", "cm", "mm"),
-
-dpi = 300, limitsize = TRUE, ...)
-
-So I will save it 
-
-```{r}
-ggsave("temp_picture.png", plot = picture, path="/Users/jasonsun/stat545/work1/STAT545-hw01--Bao-Sun/hw05")
 ```
 
 Ok, to be honest, the plot is not so nice to see right? Then we can do some changing to make it more beautiful by specifying each invididual color one by one 
