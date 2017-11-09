@@ -57,9 +57,9 @@ Let's do some work buddy!
 
 ### Question 1: Character data: Read and work the exercises in the Strings chapter or R for Data Science.
 
-#### Question1: In code that doesn???t use stringr, you???ll often see paste() and paste0(). What???s the difference between the two functions? What stringr function are they equivalent to? How do the functions differ in their handling of NA?
+#### Question1: In code that doesn't use stringr, you'll often see paste() and paste0(). What's the difference between the two functions? What stringr function are they equivalent to? How do the functions differ in their handling of NA?
 
-Answer: Both function has the same argument called sep, which describes the space to write the series of strings. So The difference between paste() and paste0() is that the argument sep by default is ??? ??? (paste) and ?????? (paste0).
+Answer: Both function has the same argument called sep, which describes the space to write the series of strings. So The difference between paste() and paste0() is that the argument sep by default is (paste) and (paste0).
 
 The equivalent function in stringr is str\_c(). However, in str\_c(), NA functions are silently dropped() while paste will not.
 
