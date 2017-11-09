@@ -7,7 +7,7 @@ Hi Everyone!
 This is the folder for STAT545 Homework6:Data wrangling wrap up
 
 
-![Direct Link to the File](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw05/Factor_and_figure_management.md "Direct Link to the File")
+![Direct Link to the File](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw06/Data_wrangling_wrap_up.md "Direct Link to the File")
 
 Basically we will do the following work
 
