@@ -77,11 +77,11 @@ Answer: If there is even number of characters, then just extract the two charact
 
 Answer: strwrap() function wraps character strings to format paragraphs. The input strings are split into paragraphs and then formateed by breaking lines at word boundaries. So str\_wrap() is basically used to wrap character strings into fromat paragraphs.
 
-#### What does str\_trim() do? What???s the opposite of str\_trim()?
+#### What does str\_trim() do? What's the opposite of str\_trim()?
 
 Answer: str\_trim() is used to delete the whitespaces from the start and the end of the string. The opposite of str\_trim() is str\_c() I think because it can add new white spaces in front of the string or at the end of the string.
 
-#### Explain why each of these strings don???t match a : "", "\\", "\\".
+#### Explain why each of these strings don't match a : "", "\\", "\\".
 
 Answer: "" is an escape character inregular expressions. First you need to escape it by creating a regular expression "\\" and then use a string, then you need to have another "" and finally to match a literal "", you need to add another "". So finally the result should be "\\\\"
 
@@ -227,5 +227,3 @@ Personal Thought
 ----------------
 
 Since this is the first homework for this new term. So basically the work is not that hard. What I learned is basically try to implement the stringi() and self-defined function, which helped me a lot in developing more complex code in R. Overall, the process is not that diffcult and looking foward to the next time challenge :)
-
-[1] aeiou
