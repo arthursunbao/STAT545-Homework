@@ -149,6 +149,7 @@ estimate_central_tendency <- function(input, npar=TRUE, result = TRUE){
 set.seed(1000)
 input_parameter <- rpois(200,3)
 output_result <- estimate_central_tendency(input_parameter)
+output_result
 
 # Let's have another self-defined function for returning the max and min function.
 
@@ -165,6 +166,7 @@ find_bigger_number <- function(input1, input2){
 
 #Let's test that
 output_result = find_bigger_number(15,20)
+output_result
 
 #Let's develop a function which can return the square of a certain number
 
@@ -177,6 +179,7 @@ squared_number <- function(input_number){
 
 #Then let's test that
 squared_output = squared_number(10)
+squared_output
 
 ```
 

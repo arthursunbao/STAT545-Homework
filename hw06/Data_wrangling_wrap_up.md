@@ -1,7 +1,7 @@
-Tidy data and joins
+Data wrangling wrap up
 ================
 Jason Sun
-2017-11-05
+2017-11-09
 
 Intro
 -----
@@ -163,6 +163,16 @@ output_result <- estimate_central_tendency(input_parameter)
     ##  Standard_Deviation= 1.4826
 
 ``` r
+output_result
+```
+
+    ## $center
+    ## [1] 3
+    ## 
+    ## $spread
+    ## [1] 1.4826
+
+``` r
 # Let's have another self-defined function for returning the max and min function.
 
 find_bigger_number <- function(input1, input2){
@@ -178,7 +188,12 @@ find_bigger_number <- function(input1, input2){
 
 #Let's test that
 output_result = find_bigger_number(15,20)
+output_result
+```
 
+    ## [1] 20
+
+``` r
 #Let's develop a function which can return the square of a certain number
 
 squared_number <- function(input_number){
@@ -190,7 +205,10 @@ squared_number <- function(input_number){
 
 #Then let's test that
 squared_output = squared_number(10)
+squared_output
 ```
+
+    ## [1] 3.162278
 
 Work with a list: Work through and write up a lesson from the purrr tutorial:
 -----------------------------------------------------------------------------
