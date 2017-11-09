@@ -26,7 +26,10 @@ My previous experience lays mainly in **software engineering with development ex
 ![My Forth Homework is at here: ](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw04/Tidy_data_and_joins.md
 "Homework4")
 
-![My Final Homework is at here: ](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw05/Factor_and_figure_management.md "Homework5")
+![My Fifth Homework is at here: ](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw05/Factor_and_figure_management.md "Homework5")
+
+![My Sixth Homework is at here: ](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw06/Data_wrangling_wrap_up.md "Homework5")
+
 
 ### Current Course Plan
 Here is a list of to-do list I want to achieve in the course in the future.
