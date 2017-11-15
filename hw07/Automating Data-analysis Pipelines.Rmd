@@ -1,0 +1,66 @@
+---
+title: "Data wrangling wrap up"
+author: "Jason Sun"
+email: "sunb@ece.ubc.ca"
+date: "`r format(Sys.Date())`"
+output: github_document
+---
+
+## Intro
+
+Today we will do Data wrangling wrap up
+
+Basically we will do the following work
+
+- Write (or extract from a previous analysis) three or more R scripts to carry out a small data analysis.
+
+- The output of the first script must be the input of the second, and so on.
+
+- First script: download some data.
+
+- Second script: read the data, perform some analysis and write numerical data to file in CSV or TSV format.
+
+- Third script: read the output of the second script, generate some figures and save them to files.
+
+- Fourth script: an Rmd, actually, that presents original data, the statistical summaries, and/or the figures in a little report.
+
+- A fifth script to rule them all, i.e. to run the others in sequence
+
+## Initial Setup
+We need to load some dataset first
+
+```{r}
+suppressPackageStartupMessages(library(gapminder))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(reshape))
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(stringr))
+library(forcats)
+library(gapminder)
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+library(ggthemes)
+library(reshape)
+library(tidyr)
+library(stringr)
+knitr::opts_chunk$set(fig.width=8, fig.height=5)
+```
+
+## Let's do some work buddy!
+
+### Question 1: Write (or extract from a previous analysis) three or more R scripts to carry out a small data analysis
+
+I will follow the example of in the class with Makefile usage, which I think is an extension of work as Makefile is very commonly-used in our daily development to automate multi-script tasking. For the dataset, I will follow the simple gapminder dataset as most of us is very familiar with the dataset already. 
+
+
+
+
+
+
+
+
+## Personal Thought
+Since this is the first homework for this new term. So basically the work is not that hard. What I learned is basically try to implement the stringi() and self-defined function, which helped me a lot in developing more complex code in R. Overall, the process is not that diffcult and looking foward to the next time challenge :)

@@ -1,0 +1,16 @@
+library(purrr)
+library(gapminder)
+library(tidyverse)
+library(forcats)
+library(knitr)
+library(ggthemes)
+library(reshape)
+library(tidyverse)
+library(tidyr)
+library(stringr)
+
+gapminder <- read.delim("gapminder.tsv")
+countrycode <- read.delim("countrycode.tsv")
+
+countrycode_result <- left_join(gapminder, countrycode)
+countrycode_result %>% saveRDS("new_dataset.rds")
