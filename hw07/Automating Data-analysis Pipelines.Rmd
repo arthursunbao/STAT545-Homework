@@ -6,25 +6,7 @@ date: "`r format(Sys.Date())`"
 output: github_document
 ---
 
-## Intro
-
-Today we will do Data wrangling wrap up
-
-Basically we will do the following work
-
-- Write (or extract from a previous analysis) three or more R scripts to carry out a small data analysis.
-
-- The output of the first script must be the input of the second, and so on.
-
-- First script: download some data.
-
-- Second script: read the data, perform some analysis and write numerical data to file in CSV or TSV format.
-
-- Third script: read the output of the second script, generate some figures and save them to files.
-
-- Fourth script: an Rmd, actually, that presents original data, the statistical summaries, and/or the figures in a little report.
-
-- A fifth script to rule them all, i.e. to run the others in sequence
+## Let's do some work for homework 7
 
 ## Initial Setup
 We need to load some dataset first
@@ -46,21 +28,180 @@ library(ggthemes)
 library(reshape)
 library(tidyr)
 library(stringr)
+library(downloader)
+library(broom)
+library(ggmap)
 knitr::opts_chunk$set(fig.width=8, fig.height=5)
 ```
 
 ## Let's do some work buddy!
+```{r}
+# Download the data first
+download.file(url = "https://raw.githubusercontent.com/jennybc/gapminder/master/inst/extdata/gapminder.tsv", destfile = "gapminder.tsv")
+download.file(url = "https://raw.githubusercontent.com/jennybc/gapminder/master/inst/extdata/country-codes.tsv", destfile = "countrycode.tsv")
 
-### Question 1: Write (or extract from a previous analysis) three or more R scripts to carry out a small data analysis
+#Get the new dataset
 
-I will follow the example of in the class with Makefile usage, which I think is an extension of work as Makefile is very commonly-used in our daily development to automate multi-script tasking. For the dataset, I will follow the simple gapminder dataset as most of us is very familiar with the dataset already. 
+gapminder <- read.delim("gapminder.tsv")
+countrycode <- read.delim("countrycode.tsv")
+countrycode_result <- left_join(gapminder, countrycode)
+countrycode_result %>% saveRDS("new_dataset.rds")
+
+#Let's do some work
+
+new_dataset = readRDS("new_dataset.rds")
+
+# Let's try to see the scatterplot for the relationship between lifeExp and gdpPercap
+
+scatterplot_lifexp_gdppercap <- ggplot(new_dataset, aes(x = gdpPercap, y = lifeExp)) + geom_point()
+
+scatterplot_lifexp_gdppercap
+
+ggsave("life_exp_hist",scatterplot_lifexp_gdppercap ,device = "png", width = 10, height = 10,dpi = 300)
 
 
+# Let's try to find out the log10(gdpPerCap) towards lifeExp
+
+scatterplot_log10_lifeexp_gdppercap <- ggplot(new_dataset, aes(x = log10(gdpPercap), y = lifeExp)) + geom_point()
+
+scatterplot_log10_lifeexp_gdppercap
+
+ggsave("scatterplot_log10_lifeexp_gdppercapt",scatterplot_log10_lifeexp_gdppercap ,device = "png", width = 10, height = 10,dpi = 300)
+
+# Let's draw a plot by year with different countries and their respective lifeExp
+
+jCountries <- c("Canada", "Rwanda", "Cambodia", "Mexico")
+
+different_life_exp <- ggplot(subset(new_dataset, country %in% jCountries), aes(x = year, y = lifeExp, color = country)) + geom_line() + geom_point()
+
+different_life_exp
+
+ggsave("different_life_exp",different_life_exp ,device = "png", width = 10, height = 10,dpi = 300)
+
+# I will reorder the avg life expectany by continents in year 2007 from largest to smallest based on their respective average life expectancy
+
+# Make a plot of GDP for country codec between 30 and 120
+new_dataset_codec <- new_dataset %>%  filter(iso_num >30 & iso_num <120) %>% ggplot(aes(x = year, y = (gdpPercap*pop)))+ facet_wrap(~ country , scales = "free_y") + geom_point(aes(color = country, size = 2)) + theme_bw() +
+theme(strip.background = element_rect(fill="grey"), axis.title.x = element_text(size=15), axis.title.y = element_text(size=15), strip.text = element_text(size=10, face="bold",hjust=0.5)) + scale_y_continuous("GDP")   
+
+new_dataset_codec
+
+ggsave("new_dataset_codec",new_dataset_codec ,device = "png", width = 10, height = 10,dpi = 300)
+
+new_dataset %>% saveRDS("figure.rds")
 
 
+new_dataset = readRDS("figure.rds")
+
+#Let's do the work 
+
+#Step1: Let's change the order of the new_dataset column
+
+result_reorder_data <- new_dataset %>% mutate(continent = fct_reorder(continent,lifeExp, max))
+
+result_reorder_data %>% saveRDS("reordered_dataset.rds")
+
+#Step2: Plot a plot based on the above result_reorder_data for life_exp
+
+max_life_exp <- result_reorder_data %>% group_by(continent) %>%  summarise(max_life_exp = max(lifeExp)) 
+  
+ggplot(max_life_exp, aes(x = continent, y = max_life_exp, color = max_life_exp))+ 
+geom_point() + theme_bw() + theme(axis.title.x = element_text(size=20), axis.title.y = element_text(size=20), plot.title=element_text(hjust=0.5)) +
+labs(title="max_LifeExp for each continent reordered")
+
+ggsave("continent_based_max_life.png")
+
+min_life_exp <- result_reorder_data %>% group_by(continent) %>%  summarise(min_life_exp = min(lifeExp)) 
+
+ggplot(min_life_exp, aes(x = continent, y = min_life_exp, color = min_life_exp))+ 
+  geom_point() + theme_bw() + theme(axis.title.x = element_text(size=20), axis.title.y = element_text(size=20), plot.title=element_text(hjust=0.5)) +
+  labs(title="min_LifeExp for each continent reordered")
+
+ggsave("continent_based_min_life.png")
+
+new_dataset = readRDS("new_dataset.rds")
+
+# Let's do some work
+# Let's do the linear regression model
+# Fit a linear regression of life expectancy on year within each country. Write the estimated intercepts, slopes, and residual error variance (or sd) to file. The R package broom may be useful here.
+# Let's define a function to do the linear regression with lifeExp with year
+linear_regression_model <- function(year) {
+  lm(lifeExp ~ I(year - 1900), data = year)
+}
+
+nest_country <- new_dataset %>% group_by(continent, country) %>% nest()
+
+result <- nest_country %>%  mutate(model = map(data, linear_regression_model), tidy = map(model, tidy)) %>% 
+select(continent, country, tidy) %>% unnest(tidy) %>% mutate(term = recode(term, `Interception` = "intercept", `Year Difference` = "slope"))
+                                                    
+
+result 
+
+result %>%saveRDS("linear_regression_result.rds")
+
+# Let's now do some plotting to apply the linear regression model into the each continent
+
+asia <- new_dataset %>% filter(continent == "Asia")
+  
+ggplot(asia, aes(x=year,y=lifeExp)) + geom_point(aes(color = country)) +  geom_smooth(method="lm",se=FALSE) + labs(title="Asia country by country life exp plot")
+
+ggsave("Asia_country_by_country_life_exp_plot.png" )
 
 
+africa <- new_dataset %>% filter(continent == "Africa")
+
+ggplot(africa, aes(x=year,y=lifeExp)) + geom_point(aes(color = country)) +  geom_smooth(method="lm",se=FALSE) + labs(title="Africa country by country life exp plot")
+
+ggsave("Africa_country_by_country_life_exp_plot.png" )
+
+
+america <- new_dataset %>% filter(continent == "Americas")
+
+ggplot(america, aes(x=year,y=lifeExp)) + geom_point(aes(color = country)) +  geom_smooth(method="lm",se=FALSE) + labs(title="America country by country life exp plot")
+
+ggsave("America_country_by_country_life_exp_plot.png" )
+
+europe <- new_dataset %>% filter(continent == "Europe")
+
+ggplot(europe, aes(x=year,y=lifeExp)) + geom_point(aes(color = country)) +  geom_smooth(method="lm",se=FALSE) + labs(title="European country by country life exp plot")
+
+ggsave("European_country_by_country_life_exp_plot.png" )
+
+
+# Let's find out the best 4 and worst 4 countries for each continent and I will use the stderr to do the judgement
+
+Asia_good <- result %>%  filter(continent == "Asia") %>% arrange(std.error) %>%  head(3L)
+knitr::kable(Asia_good)
+
+Asia_bad <- result %>%  filter(continent == "Asia") %>% arrange(desc(std.error)) %>%  head(3L)
+knitr::kable(Asia_good)
+
+europe_good <- result %>%  filter(continent == "Europe") %>% arrange(std.error) %>%  head(3L)
+knitr::kable(europe_good)
+
+europe_bad <- result %>%  filter(continent == "Europe") %>% arrange(desc(std.error)) %>%  head(3L)
+knitr::kable(europe_bad)
+
+america_good <- result %>%  filter(continent == "Americas") %>% arrange(std.error) %>%  head(3L)
+knitr::kable(america_good)
+
+africa_bad <- result %>%  filter(continent == "Africa") %>% arrange(desc(std.error)) %>%  head(3L)
+knitr::kable(africa_bad)
+
+africa_good <- result %>%  filter(continent == "Africa") %>% arrange(std.error) %>%  head(3L)
+knitr::kable(africa_good)
+
+asia_bad <- result %>%  filter(continent == "Asia") %>% arrange(desc(std.error)) %>%  head(3L)
+knitr::kable(asia_bad)
+
+asia_good <- result %>%  filter(continent == "Asia") %>% arrange(std.error) %>%  head(3L)
+knitr::kable(asia_good)
+
+```
 
 
 ## Personal Thought
-Since this is the first homework for this new term. So basically the work is not that hard. What I learned is basically try to implement the stringi() and self-defined function, which helped me a lot in developing more complex code in R. Overall, the process is not that diffcult and looking foward to the next time challenge :)
+This work is not much difficult even though it requires some hard work and time to figure out how to best organize your makefile. This homework is very useful because it helps to understand how to work with makefile and how to automate the process for multiple files to run in sequentia order. I like the homework a lot. 
+
+
+
