@@ -7,20 +7,20 @@ Hi Everyone!
 This is the folder for STAT545 Homework 7 : Automating Data-analysis Pipelines
 
 
-![Direct Link to the File](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw06/Data_wrangling_wrap_up.md "Direct Link to the File")
+![Direct Link to the File](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw07/Automating_Data-analysis_Pipelines.md "Direct Link to the File")
 
-Basically we will do the following work
+There is two ways to have a full view of the work.
 
-- Write (or extract from a previous analysis) three or more R scripts to carry out a small data analysis.
+Just download the folder and run make all, which will automate the process to run the individual R files and integrate together.
 
-- The output of the first script must be the input of the second, and so on.
+Second way is to hit the link just above to get a full view of the current homework.
 
-- First script: download some data.
+The current makefile work contains several following steps:
 
-- Second script: read the data, perform some analysis and write numerical data to file in CSV or TSV format.
+1. Download Data
+2. Combine and generate new dataset
+3. Generate figures according to the requirement
+4. Reorder the data according to the requirement
+5. Do statistical analysis based on the above dataset
 
-- Third script: read the output of the second script, generate some figures and save them to files.
 
-- Fourth script: an Rmd, actually, that presents original data, the statistical summaries, and/or the figures in a little report.
-
-- A fifth script to rule them all, i.e. to run the others in sequence
