@@ -1,0 +1,13 @@
+name: hw08
+title: hw08
+username:
+account: jasonsunbao
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 237743
+bundleId: 1085434
+url: https://jasonsunbao.shinyapps.io/hw08/
+when: 1511173804.79998
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: Liquors.png
