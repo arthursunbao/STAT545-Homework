@@ -7,7 +7,7 @@ Hi Everyone!
 This is the folder for STAT545 Homework 8 : Building Shiny apps
 
 
-![Here is the link to the webapp](https://jasonsunbao.shinyapps.io/hw08/ "Shiny Webapp")
+![Here is the link to the webapp](https://jasonsunbao.shinyapps.io/hw08 "Shiny Webapp")
 
 Basically we will do the following work
 
