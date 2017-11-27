@@ -1,7 +1,7 @@
 Homework 09: Building your own R package
 =====================
 
-### About this folder
+## About this folder
 Hi Everyone!
 
 This is the folder for STAT545 Homework 9 : Building your own R package
@@ -20,5 +20,17 @@ I will continue working with foofactors package as it is more convenient for me 
 - Keep updating the README and vignette to show usage of all the functions in the package. Your peer reviewers and TA will only have the README and vignette to go on when they try to use your package. Show them exactly what they can do! Remove boilerplate content from the vignette.
 - Push your package to GitHub, preferably a public repo. If you are uncomfortable with that, please contact an instructor and we???ll work around that.
 - Write your reflections in a document in your normal STAT 545/547 course repo and open the usual issue there. Make sure to provide a link to your package, so TAs/prof/peers can find it for review!
+
+## Report My Process
+
+I have created these two functions:
+
+[`check_factors()`](https://github.com/arthursunbao/foofactors/blob/master/R/check_factor.R) - Check the current input parameter is a factor or not
+
+[`sort_factors()`](https://github.com/arthursunbao/foofactors/blob/master/R/sort_factor.R) - Sort in descending order for factors
+
+## Problems
+
+Actually I really enjoyed the whole process and didn't encounter much of the problem during the homework because I am a good searcher using stackoverflow :)
 
 
