@@ -29,8 +29,12 @@ I have created these two functions:
 
 [`sort_factors()`](https://github.com/arthursunbao/foofactors/blob/master/R/sort_factor.R) - Sort in descending order for factors
 
-## Problems
+## Problems during the homework
 
 Actually I really enjoyed the whole process and didn't encounter much of the problem during the homework because I am a good searcher using stackoverflow :)
+
+However, during the whole process it does need to take some time to go over the previous lecture with all the testing cases and how to use factors overall. 
+
+ 
 
 
