@@ -6,6 +6,7 @@ Hi Everyone!
 
 This is the folder for STAT545 Homework 10 : Data from the Web
 
+For the homework: Make API queries “by hand” using httr
 ![Direct Link to the File](https://github.com/arthursunbao/foofactors "Direct Link to the File")
 
 I will continue working with the **Make API queries “by hand” using httr** and **Scrape the web** as the latter one was the work we had during the course, which will be easier to pickup.
@@ -34,6 +35,16 @@ Scrape a multi-record dataset off the web! Convert it into a clean and tidy data
 
 I think it’s dubious to scrape data that is available through a proper API, so if you do that anyway … perhaps you should get the data both ways and reflect on the comparison. Also, make sure you not violating a site’s terms of service or your own ethical standards with your webscraping. Just because you can, it doesn’t mean you should!
 
-## Report your progress
+## Report My Process
+
+It does take a lot of time to work on cleaning the data and getting familiar with the data structure of OMDB dataset as it is in JSON format as raw data. However, with the help of the httr, it really helps a lot to solve parsing the data as it is more like a tree strucutre and all I need to do is to traverse like a tree data structure.
+
+## Dataset Source
+
+Thanks for the help to OMDBApi as well as its database for movie. I am able to work out this project with abundant movie information, mostly for Star Trek and Transformers Movie Series IMDB, Met and RT rating and original movie information
+
+## Some technical Reference that I referred to
+
+![httr Offical Website:](https://cran.r-project.org/web/packages/httr/index.html)
 
 
