@@ -56,4 +56,3 @@ I think it is very interesting and worthwhile to use Git to do iterative develop
 What a beautiful scenary of UBC !
 ![alt text](https://www.ubc.ca/_assets/img/martha-piper-plaza-1920x700.jpg "A nice picture of UBC")
 
-![Picture](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw10/OMDB/imdb_transformer.png)
