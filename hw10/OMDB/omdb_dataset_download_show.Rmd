@@ -2,8 +2,9 @@
 title: "omdb_dataset_download_show"
 author: "Jason Sun"
 date: "12/5/2017"
-output: html_document
+output: github_document
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -117,17 +118,22 @@ knitr::kable(movie_rating_star_trek_temp_met)
 Let's draw the graph for all of them
 
 - Let's see top 5 for IMDB for transformers
+![Picture](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw10/OMDB/imdb_transformer.png)
 
 - Let's see top 5 for RT Score for transformers
+![Picture](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw10/OMDB/rt_transformer.png)
 
 - Let's see top 5 for Met Score for transformers
+![Picture](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw10/OMDB/met_transformer.png)
 
 - Let's see top 5 for IMDB Scorefor Star Trek
+![Picture](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw10/OMDB/imdb_star_trek.png)
 
 - Let's see top 5 for RT Score for Star Trek
+![Picture](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw10/OMDB/rt_star_trek.png)
 
 - Let's see top 5 for Met Score for Star Trek
-
+![Picture](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw10/OMDB/met_star_trek.png)
 
 
 

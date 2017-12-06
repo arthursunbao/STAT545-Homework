@@ -4,7 +4,6 @@ clean:
 	rm -f *.csv
 	rm -f *.png
 	rm -f *.html
-	rm -f omdb_dataset_download_show.md
 
 star_trek_rating.csv transformers_rating.csv:
 	Rscript fetch_data.R

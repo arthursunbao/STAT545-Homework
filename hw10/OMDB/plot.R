@@ -99,7 +99,7 @@ plot6 <- ggplot(movie_rating_star_trek_temp_met, aes(x=movie_rating_star_trek_te
   labs(x = "Movie Name", y = "Met Score", title = "Met Score of Star Trek") +
   theme(plot.title = element_text(hjust = 0.5))
 
-ggsave("/Users/jasonsun/stat545/work1/STAT545-hw01--Bao-Sun/hw10/OMDB/rt_star_trek.png",plot6,device = "png", width = 10, height = 7,dpi = 500)
+ggsave("/Users/jasonsun/stat545/work1/STAT545-hw01--Bao-Sun/hw10/OMDB/met_star_trek.png",plot6,device = "png", width = 10, height = 7,dpi = 500)
 
 
 
