@@ -95,7 +95,10 @@ body {
 ## 
 ##     pluck</code></pre>
 <h2 id="work-that-i-have-done">Work That I have Done</h2>
-<p>Since I have done abundant work in the OMNIApi part of work. I only worked on parsing and getting the data from the website and only got the crime link as well as the county name in Missouri and then show as a table, which is a bit simple comparing to the previous work :)</p>
+<p>I have continued with the slide's requirement in bestplace.com to dig information with rvest and I</p>
+<p>choose to find some crime information in Missouri and its counties. I firstly find out all the counties in Missouri and its respecitve crime link in the website and then saved as a dataframe for the next step's exploration. Then I choose a random county to download the detailed crime information of the county and showed as text.</p>
+<p>The whole process is like this: scrape_data ----&gt; scrape_download_show</p>
+<p>You can use Makefile to automate the whole process.</p>
 <h2 id="lets-do-some-work">Let's do some work</h2>
 <p>First of all, let's know how many counties are there in Missouri?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">county_crime_link &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;./mo_dataframe.csv&quot;</span>)
