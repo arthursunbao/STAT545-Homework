@@ -14,7 +14,7 @@ Hi Everyone!
 
 This is the folder for STAT545 Homework 10 : Data from the Web: Scrape the dataset
 
-![Direct Link to the File](https://github.com/arthursunbao/foofactors "Direct Link to the File")
+![Direct Link to the File](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw10/scrape_data/scrape_download_show.md "Direct Link to the File")
 
 ## Report your progress
 

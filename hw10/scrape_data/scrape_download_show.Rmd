@@ -25,7 +25,14 @@ library(rvest)
 
 ## Work That I have Done
 
-Since I have done abundant work in the OMNIApi part of work. I only worked on parsing and getting the data from the website and only got the crime link as well as the county name in Missouri and then show as a table, which is a bit simple comparing to the previous work :)
+I have continued with the slide's requirement in bestplace.com to dig information with rvest and I 
+
+choose to find some crime information in Missouri and its counties. I firstly find out all the counties in Missouri and its respecitve crime link in the website and then saved as a dataframe for the next step's exploration. Then I choose a random county to download the detailed crime information of the county and showed as text.
+
+The whole process is like this: scrape_data ----> scrape_download_show
+
+You can use Makefile to automate the whole process.
+
 
 ## Let's do some work
 First of all, let's know how many counties are there in Missouri?
