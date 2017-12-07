@@ -1,0 +1,58 @@
+---
+title: "scrape_download_show"
+author: "Jason Sun"
+date: "12/5/2017"
+output: github_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Let's load some library first
+
+```{r cars}
+library(purrr)
+library(ggplot2)
+library(reshape)
+library(stringr)
+library(tidyverse)
+library(glue)
+library(plyr)
+library(rvest)
+```
+
+## Work That I have Done
+
+Since I have done abundant work in the OMNIApi part of work. I only worked on parsing and getting the data from the website and only got the crime link as well as the county name in Missouri and then show as a table, which is a bit simple comparing to the previous work :)
+
+## Let's do some work
+First of all, let's know how many counties are there in Missouri?
+```{r,warning = FALSE, message=FALSE}
+county_crime_link <- read_csv("./mo_dataframe.csv")
+nrow(county_crime_link)
+```
+
+Since I have already got the county name and its crime rate link, then I will show the table of the information.
+
+```{r,warning = FALSE, message=FALSE}
+
+knitr::kable(county_crime_link)
+```
+
+What if we want to see some detailed information regarding Wright?
+
+We can use read_html(), html_nodes() and html_table() to help dig a little deeper and extract certain text information from it.
+
+```{r,warning = FALSE, message=FALSE}
+current_url <- "https://www.bestplaces.net/crime/county/missouri/wright"
+temp_text <- read_html(current_url)
+node <- html_nodes(temp_text, css = "table")
+text <- html_table(node, head = TRUE,fill = TRUE)[[1]]
+text
+```
+
+Hmm, Nice. We got the Crime Overview of the Wright County, Missouri as well as its respective composed of four offenses.
+
+

@@ -16,7 +16,17 @@ This is the folder for STAT545 Homework 10 : Data from the Web: Scrape the datas
 
 ![Direct Link to the File](https://github.com/arthursunbao/foofactors "Direct Link to the File")
 
-I will continue working with the **Make API queries “by hand” using httr** and **Scrape the web** as the latter one was the work we had during the course, which will be easier to pickup.
+## Report your progress
+
+I have continued with the slide's requirement in bestplace.com to dig information with rvest and I 
+
+choose to find some crime information in Missouri and its counties. I firstly find out all the counties in Missouri and its respecitve crime link in the website and then saved as a dataframe for the next step's exploration. Then I choose a random county to download the detailed crime information of the county and showed as text.
+
+The whole process is like this: scrape_data ----> scrape_download_show
+
+You can use Makefile to automate the whole process.
+
+During the process, I have learned a lot about HTML, CSS as I am not very familiar with those two tags and languages. The difficult lies in how to understand the API function of rvest in response to the tag in CSS and HTML. It does take time to understand but after some research, all problems are solved. 
 
 ## Requirement For The Work
 
@@ -26,4 +36,10 @@ Scrape a multi-record dataset off the web! Convert it into a clean and tidy data
 
 I think it’s dubious to scrape data that is available through a proper API, so if you do that anyway … perhaps you should get the data both ways and reflect on the comparison. Also, make sure you not violating a site’s terms of service or your own ethical standards with your webscraping. Just because you can, it doesn’t mean you should!
 
-## Report your progress
+## Some useful links
+pandoc version 1.12.3 or higher is required and was not found (R shiny) :https://stackoverflow.com/questions/28432607/pandoc-version-1-12-3-or-higher-is-required-and-was-not-found-r-shiny/29710643#29710643
+
+rvest: easy web scraping with R: https://blog.rstudio.com/2014/11/24/rvest-easy-web-scraping-with-r/
+
+rvest: Easily Harvest (Scrape) Web Pages: https://cran.r-project.org/web/packages/rvest/index.html
+
