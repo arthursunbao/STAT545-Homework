@@ -22,9 +22,6 @@ get_movie_rating <- function(name){
   #We need to do some data cleansing for the score for Met score to exclude /100
   movie_rating$Met <- as.numeric((movie_rating$Met %>% str_replace_all("/100","")))/10
 
-
-
-
   if(is.null(movie_rating)){
     stop("Error Happend. Please kindly help to double check")
   }
@@ -109,11 +106,11 @@ find_movie_info <- function(name){
 
 #Get some data as examples for Transformers
 movie_rating_transformers <- get_movie_rating("Transformers")
-write_csv(movie_rating_transformers,"/Users/jasonsun/stat545/work1/STAT545-hw01--Bao-Sun/hw10/OMDB/transformers_rating.csv")
+write_csv(movie_rating_transformers,"./transformers_rating.csv")
 
 #Get some data as examples for Star Trek
 movie_rating_startrek <- get_movie_rating("star+trek")
-write_csv(movie_rating_startrek,"/Users/jasonsun/stat545/work1/STAT545-hw01--Bao-Sun/hw10/OMDB/star_trek_rating.csv")
+write_csv(movie_rating_startrek,"./star_trek_rating.csv")
 
 
 

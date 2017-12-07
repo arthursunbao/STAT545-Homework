@@ -111,8 +111,8 @@ You can also embed plots, for example:
 
 ``` r
 #Get the data from the csv
-movie_rating_transformers <-read_csv("/Users/jasonsun/stat545/work1/STAT545-hw01--Bao-Sun/hw10/OMDB/transformers_rating.csv")
-movie_rating_startrek <- read_csv("/Users/jasonsun/stat545/work1/STAT545-hw01--Bao-Sun/hw10/OMDB/star_trek_rating.csv")
+movie_rating_transformers <-read_csv("./transformers_rating.csv")
+movie_rating_startrek <- read_csv("./star_trek_rating.csv")
 ```
 
 Let's get a brief overview of the current dataset we have for transformers
