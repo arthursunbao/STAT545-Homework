@@ -7,13 +7,13 @@ Hi Everyone!
 This is the folder for STAT545 Homework 10 : Data from the Web
 
 For the homework: Make API queries “by hand” using httr
-![Direct Link to the File](https://github.com/arthursunbao/foofactors "Direct Link to the File")
+![Direct Link to the File](https://github.com/arthursunbao/STAT545-Homework/blob/master/hw10/OMDB/omdb_dataset_download_show.md "Direct Link to the File")
 
 I will continue working with the **Make API queries “by hand” using httr** and **Scrape the web** as the latter one was the work we had during the course, which will be easier to pickup.
 
 ## Requirement For The Work
 
-###Make API queries “by hand” using httr
+### Make API queries “by hand” using httr
 Create a dataset with multiple records by requesting data from an API using the httr package.
 
 GET() data from the API and convert it into a clean and tidy data frame. Store that as a file ready for (hypothetical!) downstream analysis. Do just enough basic exploration of the resulting data, possibly including some plots, that you and a reader are convinced you’ve successfully downloaded and cleaned it.
@@ -45,6 +45,6 @@ Thanks for the help to OMDBApi as well as its database for movie. I am able to w
 
 ## Some technical Reference that I referred to
 
-![httr Offical Website:](https://cran.r-project.org/web/packages/httr/index.html)
+Offical Httr Website: https://cran.r-project.org/web/packages/httr/index.html
 
 
